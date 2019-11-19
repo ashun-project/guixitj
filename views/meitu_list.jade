@@ -1,0 +1,39 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title=pageTitle
+        meta(name="keywords", content=pageKeyword)
+        meta(name="description", content='#{pageDescrition}')
+        -if(terminal == 'pc')
+            meta(http-equiv="Cache-Control", content="no-transform")
+            meta(http-equiv="Cache-Control", content="no-siteapp")
+        -else
+            meta(name="viewport", content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no")
+            meta(name="format-detection", content="telephone=no")
+        meta(name="applicable-device", content="#{terminal}")
+        link(rel="stylesheet", type="text/css", href="/css/style.css")
+        link(rel="shortcut icon", href="#{host}/img/favicon.ico", type="image/x-icon")
+    body
+        include ../include/header.jade
+        .banner
+            img(src="#{host}/img/bn.jpg", alt="妹子-banner")
+        .lsit-items
+            .data-list
+                each item in listData
+                    a(href="#{host+'/meitu/detail/'+item.id}", title="#{item.title}", target="_blank")
+                        .list-img
+                            img(src="#{item.img.replace(/https\:\/\/mtl\.ttsqgs\.com|https\:\/\/mtl\.xtpxw\.com/,'http://img.qqzhpt.com/meitustatic') + '?' + new Date().getTime()}", alt="#{item.title}")
+                        .list-profile
+                            p #{item.imglen}
+                            p #{item.jigou}
+                            p #{item.mutie}
+                        .list-title
+                            strong #{item.title}
+                -if(!listData.length)
+                    span.no-data 没有找到数据，请重新选择！
+        .meitu-page !{page} 
+        script
+            include ../include/header_menu.js
+        include ../include/footer.jade
+        

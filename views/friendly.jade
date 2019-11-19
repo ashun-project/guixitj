@@ -1,0 +1,79 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title frienly
+        script(src="https://code.jquery.com/jquery-3.1.1.min.js")
+    body
+        //- div(id="ashun")
+        div
+            span 姓名：
+            input(id="name")
+            span url
+            input(id="url")
+            button(onclick="add()") 提交
+        ul(id="ul")
+            each item in data
+                li
+                    span #{item.id}
+                    span #{item.name}
+                    span #{item.url}
+                    button(onclick="del(#{item.id})", id="button#{item.id}") 删除
+        style.
+            ul,li{
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            li{
+                border-bottom: 1px solid #eee;
+            }
+            li span{
+                margin-right: 30px;
+                display: block;
+                line-height: 40px;
+            }
+            li button{
+                height: 30px;
+                line-height: 30px;
+                margin-top: 5px;
+            }
+        script.
+            function del(id) {
+                var vm = $('#button'+id)
+                $.ajax({
+                    type: 'post',
+                    url: '/friendly/del',
+                    data: JSON.stringify({ id: id }),
+                    contentType: "application/json; charset=UTF-8",
+                    success: function (response) {
+                        $(vm).parents('li').remove()
+                    },
+                    error: function (err) {
+                        debugger
+                    }
+                });
+            };
+            function add(){
+                var name=$('#name').val()
+                var url=$('#url').val()
+                $.ajax({
+                    type: "post",
+                    url: '/friendly/add',
+                    data: JSON.stringify({name:name,url:url }),
+                    contentType: "application/json; charset=UTF-8",
+                    success: function (response) {
+                    //-    var li = document.createElement('li');
+                    //-    li.innerHTML = '<span>' + response.data.id + '</span><span>' + response.data.name + '</span><span>' + response.data.url + '</span><button onclick="del(' + response.data.id + ')">删除</button>'
+                    //-   $('#ul').appendChild(li);
+                        $('#ul').append('<li><span>' + response.data.id + '</span><span>' + response.data.name + '</span><span>' + response.data.url + '</span><button id="button'+ response.data.id +'" onclick="del(' + response.data.id + ')">删除</button></li>')
+                       
+                      
+                    },
+                    error: function (err) {
+                        debugger
+                    }
+                })
+                 
+            }

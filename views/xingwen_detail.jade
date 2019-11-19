@@ -1,0 +1,75 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title=pageTitle+'_情趣综合平台'
+        -if(terminal == 'pc')
+            meta(http-equiv="Cache-Control", content="no-transform")
+            meta(http-equiv="Cache-Control", content="no-siteapp")
+        -else
+            meta(name="viewport", content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no")
+            meta(name="format-detection", content="telephone=no")
+        meta(name="applicable-device", content="#{terminal}")
+        link(rel="stylesheet", type="text/css", href="/css/style.css")
+        link(rel="shortcut icon", href="#{host}/img/favicon.ico", type="image/x-icon")
+    body
+        include ../include/header.jade
+        .detail-title
+            h1.lf #{pageTitle}
+            div.rf
+                span 当前位置：
+                a(href="#{host}/") 首页&nbsp;&gt;&nbsp;
+                a(href="#{host}/xingwen/") 星闻&nbsp;&gt;&nbsp;
+                -if (position.type)
+                    a(href="#{host+'/xingwen/'+position.type}/") #{position.name}&gt;&nbsp;
+                span 详情
+        .xingwen-detail
+            -if(txt)
+                each item in txt
+                    -if (item.indexOf('<img') > -1 || item.indexOf('href=') > -1)
+                        p.img !{item.replace('http://img.mingxing.com','http://img.qqzhpt.com/xingwenstatic')}
+                    -else
+                        p #{item.replace(/http\:\/\/www\.mingxing\.com|http\:\/\/mingxing\.com|www\.mingxing\.com|mingxing\.com/g,host)}
+            -else
+                span.no-data 没有找到相关文章，请重新选择！
+        .share
+            .bdsharebuttonbox
+                a.bds_more(href='#', data-cmd='more')       
+                a.bds_qzone(href='#', data-cmd='qzone', title='分享到QQ空间')
+                a.bds_tsina(href='#', data-cmd='tsina', title='分享到新浪微博')
+                a.bds_tqq(href='#', data-cmd='tqq', title='分享到腾讯微博')
+                a.bds_renren(href='#', data-cmd='renren', title='分享到人人网')
+                a.bds_weixin(href='#', data-cmd='weixin', title='分享到微信')
+                a.bds_sqq(href='#', data-cmd='sqq', title='分享到QQ好友')
+                a.bds_tieba(href='#', data-cmd='tieba', title='分享到百度贴吧')
+        .xingwen-list.xingwen
+            h5.recommond-tuijian 相关推荐
+            ul
+                each item in recommond
+                    li
+                        .list-img
+                            a(href="#{host+'/xingwen/'+item.type+'/'+item.id}", title="#{item.title}")
+                                img(src="#{item.img.replace('http://img.mingxing.com','http://img.qqzhpt.com/xingwenstatic')}", alt="#{item.title}")
+                        .list-cont
+                            a(href="#{host+'/xingwen/'+item.type+'/'+item.id}", title="#{item.title}")
+                                h3 #{item.title}
+                            p #{item.txt}
+                            i #{item.time}
+            -if(!recommond.length)
+                span.no-data 没有找到数据，请重新选择！
+        script
+            include ../include/header_menu.js
+        include ../include/footer.jade
+        script.
+            //- getXingwenDetailImg()
+            //- function getXingwenDetailImg () {
+            //-     var imgs = document.querySelectorAll('.xingwen-detail img');
+            //-     for(var i = 0; i < imgs.length; i++) {
+            //-         var src = imgs[i].getAttribute('src');
+            //-         if (src.indexOf('img.mingxing.com') > -1) {
+            //-             imgs[i].setAttribute('src', src.replace('http://img.mingxing.com', '/xingwenstatic'));
+            //-         }
+            //-     }
+            //- }
+            window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","qzone","tsina","tieba","sqq","weixin","bdysc","renren","tqq","bdxc","kaixin001","tqf","douban","tsohu","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin","sqq","tieba"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","sqq","tieba"]}};
+            with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];

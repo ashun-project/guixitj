@@ -1,0 +1,93 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title=pageTitle+'_情趣综合平台'
+        -if(terminal == 'pc')
+            meta(http-equiv="Cache-Control", content="no-transform")
+            meta(http-equiv="Cache-Control", content="no-siteapp")
+        -else
+            meta(name="viewport", content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no")
+            meta(name="format-detection", content="telephone=no")
+        meta(name="applicable-device", content="#{terminal}")
+        link(rel="stylesheet", type="text/css", href="/css/style.css")
+        link(rel="shortcut icon", href="#{host}/img/favicon.ico", type="image/x-icon")
+    body
+        include ../include/header.jade
+        .detail-title
+            h1.lf #{pageTitle}
+            div.rf
+                span 当前位置：
+                a(href="#{host}/") 首页&nbsp;&gt;&nbsp;
+                a(href="#{host}/meitu/") 精品美图&nbsp;&gt;
+                span 详情
+                
+        .imgs-list
+            -if(imgs.length)
+                div#imgs-list
+                    each item in imgs
+                        img(src="#{item.replace(/https\:\/\/mtl\.ttsqgs\.com|https\:\/\/mtl\.xtpxw\.com/,'http://img.qqzhpt.com/meitustatic') + '?' + new Date().getTime()}", alt="#{pageTitle}")
+            -else
+                span.no-data 没有找到图片，请重新选择！
+        //- .share
+        //-     .bdsharebuttonbox
+        //-         a.bds_more(href='#', data-cmd='more')       
+        //-         a.bds_qzone(href='#', data-cmd='qzone', title='分享到QQ空间')
+        //-         a.bds_tsina(href='#', data-cmd='tsina', title='分享到新浪微博')
+        //-         a.bds_tqq(href='#', data-cmd='tqq', title='分享到腾讯微博')
+        //-         a.bds_renren(href='#', data-cmd='renren', title='分享到人人网')
+        //-         a.bds_weixin(href='#', data-cmd='weixin', title='分享到微信')
+        //-         a.bds_sqq(href='#', data-cmd='sqq', title='分享到QQ好友')
+        //-         a.bds_tieba(href='#', data-cmd='tieba', title='分享到百度贴吧')
+        .detail-page.meitu-page
+            -if(imgs.length)
+                span 共#{totalImgs.length}条
+                | !{page} 
+        .lsit-items
+            h5.recommond-tuijian 猜你喜欢
+            .data-list
+                each item in recommond
+                    a(href="#{host+ '/meitu/detail/'+item.id}", title="#{item.title}")
+                        .list-img
+                            img(src="#{item.img.replace('https://mtl.ttsqgs.com','http://img.qqzhpt.com/meitustatic') + '?' + new Date().getTime()}", alt="#{item.title}")
+                        .list-profile
+                            p #{item.imglen}
+                            p #{item.jigou}
+                            p #{item.mutie}
+                        .list-title
+                            strong #{item.title}
+                -if(!recommond.length)
+                    span.no-data 没有找到数据，请重新选择！
+        .go-top#go-top(onclick="goTop()") &and;
+        script
+            include ../include/header_menu.js
+        include ../include/footer.jade
+        script.
+            function goTop() {
+                var scrollToptimer = '';
+                scrollToptimer = setInterval(function () {
+                    var top = document.body.scrollTop || document.documentElement.scrollTop;
+                    var speed = top / 4;
+                    if (document.body.scrollTop!=0) {
+                        document.body.scrollTop -= speed;
+                    }else {
+                        document.documentElement.scrollTop -= speed;
+                    }
+                    if (top == 0) {
+                        clearInterval(scrollToptimer);
+                    }
+                }, 30);
+            }
+            window.onscroll= function(){
+                //变量t是滚动条滚动时，距离顶部的距离
+                var t = document.documentElement.scrollTop||document.body.scrollTop;
+                var scrollup = document.getElementById('go-top');
+                //当滚动到距离顶部200px时，返回顶部的锚点显示
+                if(t>=300){
+                    scrollup.style.display="block";
+                }else{          //恢复正常
+                    scrollup.style.display="none";
+                }
+            }
+            //- window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","qzone","tsina","tieba","sqq","weixin","bdysc","renren","tqq","bdxc","kaixin001","tqf","douban","tsohu","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin","sqq","tieba"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","sqq","tieba"]}};
+            //- with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];

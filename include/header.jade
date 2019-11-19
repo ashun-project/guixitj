@@ -1,0 +1,33 @@
+.header
+    div.logo.lf
+        h6
+            a(href="#{host}/") 情趣综合平台
+    div.search.rf
+        input(id="search-value", placeholder="#{(type.indexOf('xingwen') > -1? '当前搜索星闻' : '当前搜索美图')}", onkeyup="getKeyup()", type="text")
+        button(onclick="goSearch()") 搜索
+    div.menu.rf
+        #mobile-menu
+        ul
+            - var ary = [{name: '首页', url: '/', type: 'shouye'}, {name: '星闻', url: '/xingwen/', type: 'xingwen', child: true}, {name: '精品美图', url: '/meitu/', type: 'meitu', child: true}];
+            each item in ary
+                li(class="#{(type.indexOf(item.type) > -1? 'active' : '')}")
+                    a(href="#{host+item.url}", title="#{item.name}", class="#{item.type}") #{item.name}
+                        -if (item.child)
+                            i
+                    -if (childMenus[item.type])
+                        .child-ul
+                            ul
+                                each li in childMenus[item.type]
+                                    li
+                                        -if (li.type !== 'all')
+                                            a(href="#{host+'/'+item.type+'/'+li.type}/") #{li.name}
+.menu-child
+    each value, key in childMenus
+        -if (type.indexOf(key) > -1)
+            div(class="#{key+'-child-menu'}")
+                each item in value
+                    -if (item.type == 'all')
+                        a(href="#{host+'/'+ key}/", title="#{item.name}", class="#{(type.indexOf(item.type) > -1? 'active' : '')}") #{item.name}
+                    -else
+                        a(href="#{host+'/'+ key +'/'+item.type}/", title="#{item.name}", class="#{(type.indexOf(item.type) > -1? 'active' : '')}") #{item.name}
+.mask

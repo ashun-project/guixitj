@@ -1,0 +1,16 @@
+doctype html 5
+html
+    head
+        title=pageTitle+title
+        meta(charset="utf-8")
+        meta(name="applicable-device", content="pc,mobile")
+        meta(name="MobileOptimized", content="width")
+        meta(name="HandheldFriendly", content="true")
+        link(rel="shortcut icon", href="#{host}/img/favicon.ico", type="image/x-icon")
+    body
+        div(style="text-align:center;line-height:60px;")
+            a#go-index(href="#{host}") 没有找到页面，返回首页
+        script.
+            setTimeout(function () {
+                window.location.href = document.getElementById('go-index').getAttribute('href');
+            }, 3000)
