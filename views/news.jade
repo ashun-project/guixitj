@@ -1,0 +1,96 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title 站内新闻 - 贵溪土鸡
+        meta(name="keywords", content="贵溪土鸡新闻,贵溪土鸡蛋新闻")
+        meta(name="description", content="贵溪土鸡新闻主要发布本站农家生活状况，散养鸡的生活环境，最新农家消息。")
+        link(rel="canonical", href="#{domain.pc}/news")
+        link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m}/news")
+        meta(name="mobile-agent", content="format=html5;url=#{domain.m}/news")
+        meta(name="applicable-device", content="pc")
+        meta(http-equiv="Cache-Control", content="no-transform")
+        meta(http-equiv="Cache-Control", content="no-siteapp")
+        meta(name="renderer", content="webkit")
+        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
+        link(rel="shortcut icon", href="#{domain.static}/img/favicon.ico", type="image/x-icon")
+    body
+        include ../include/header.jade
+        p.curr-positon.width-1100
+            span 当前位置：
+            a(href="#{domain.pc}/") 首页
+            span  &gt;&nbsp;站内新闻
+        div.width-1100.news-cont
+            .news-list
+                p.list-title 站内新闻列表
+                ul
+                    li
+                        a(href="", target="_blank") 远赴80公里购买土鸡
+                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
+                    li
+                        a(href="", target="_blank") 远赴80公里购买土鸡
+                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
+                    li
+                        a(href="", target="_blank") 远赴80公里购买土鸡
+                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
+            .life-tuijian
+                div.column-title
+                    span 我们的生活
+                    a(href="") 更多
+                ul
+                    li
+                        a(href="", target="_blank")
+                            img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    li
+                        a(href="", target="_blank")
+                            img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    li
+                        a(href="", target="_blank")
+                            img(src="#{domain.static}/img/life/2.jpg", alt="")
+                    li
+                        a(href="", target="_blank")
+                            img(src="#{domain.static}/img/life/1.jpg", alt="")
+                div.column-title
+                    span 常见问题
+                    a(href="") 详情
+                div.question
+                    p.qt
+                        i
+                        span 怎么确保卖的是土鸡呢？
+                    p.an
+                        i
+                        span 我们是农村的小小农民，规模并不大，养鸡只是为了补贴家用。如果你来到我们家，附近乡里乡亲的稍微打听下就知道。买过我们家的鸡都说好。
+                    p.qt
+                        i
+                        span 提供送货上们服务吗？
+                    p.an
+                        i
+                        span 在本市内都可以送过来的，当然路太远的话按N只起送（具体依照路程而定）。小本生意大家互相体谅下。
+                //- div.qr-mobile
+                //-     img(src="#{domain.static}/img/qr.png", alt="")
+                //-     span 扫一扫 手机访问
+            //- div 
+            //- div.column-title
+            //-         span 本站新闻
+            //-         a(href="") 更多
+            //- ul
+            //-     li
+            //-         i 1
+            //-         a(href="", target="_blank") 贵溪土鸡苗孵化中
+            //-     li
+            //-         i 2
+            //-         a(href="", target="_blank") 农村土鸡的怎么做比较好吃
+            //-     li
+            //-         i 3
+            //-         a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
+            //-     li
+            //-         i 4
+            //-         a(href="", target="_blank") 贵溪土鸡苗孵化中
+            //-     li
+            //-         i 5
+            //-         a(href="", target="_blank") 农村土鸡的怎么做比较好吃
+            //-     li
+            //-         i 6
+            //-         a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+        include ../include/footer.jade
+            

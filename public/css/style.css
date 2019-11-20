@@ -446,21 +446,81 @@ body{
   left: 10px;
 }
 #my-map{
-  width:100%;
+  width: 100%;
   height:400px;
-  border:#f1f1f1 solid 1px;
-  width: 1060px;
-  margin: 0 auto;
 }
-.map-point .ditu-content{
-  width:100%;
-  height:400px;
-  border:#f1f1f1 solid 1px;
-  width: 1060px;
-  margin: 0 auto;
+/* 站内列表新闻 */
+.news-cont{
+  /* display: flex;
+  justify-content: space-between; */
+  margin-top: 10px;
+  position: relative;
 }
-.iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
-.iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
-.BMapLabel{
-    display: none !important;
+.news-cont .list-title{
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+.news-cont .news-list{
+  width: 740px;
+  min-height: 645px;
+}
+.news-cont .news-list li{
+  line-height: 50px;
+  height: 50px;
+  border-bottom: 1px solid #eee;
+}
+.news-cont .news-list li:last-child{
+  border: 0;
+}
+.news-cont .news-list li a{
+  font-size: 18px;
+  color: rgb(58, 58, 58);
+  display: inline-block;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
+}
+.news-cont .news-list li a:hover{
+  color: #f26363;
+}
+.news-cont .news-list li span{
+  float: right;
+  color: #696969;
+  font-size: 12px;
+  /* margin-top: 10px; */
+}
+.news-cont .life-tuijian{
+  width: 330px;
+  border: 1px solid #eee;
+  padding: 0 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.news-cont .life-tuijian .column-title span{
+  font-size: 16px;
+}
+.news-cont .life-tuijian ul{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.news-cont .life-tuijian li{
+  width: 149px;
+  margin-bottom: 10px;
+  height: 112px;
+}
+.news-cont .life-tuijian li img{
+  float: left;
+}
+.question p i{
+  display: inline-block;
+  background: url(../img/icon.png) no-repeat left center; 
+  width: 22px;
+  height: 24px;
+  background-position: -46px -70px;
+  background-size: 210px;
 }

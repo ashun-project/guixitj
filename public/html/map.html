@@ -2,26 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>购买贵溪土鸡要怎么走？</title>
-</head>
-<body>
-    <div id="dituContent" class="ditu-content"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购买贵溪土鸡要怎么走？</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            width: 100%;
+        }
         .ditu-content{
-            width:100%;
-            height:400px;
-            border:#f1f1f1 solid 1px;
             width: 1060px;
+            height:398px;
+            border:#f1f1f1 solid 1px;
             margin: 0 auto;
         }
-        .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
-        .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+        .iw_poi_title {
+            color:#CC5522;
+            font-size:14px;
+            font-weight:bold;
+            overflow:hidden;
+            padding-right:13px;
+            white-space:nowrap;
+        }
+        .iw_poi_content {
+            font:12px arial,sans-serif;
+            overflow:visible;
+            padding-top:4px;
+            white-space:-moz-pre-wrap;
+            word-wrap:break-word;
+        }
         .BMapLabel{
             display: none !important;
         }
     </style>
+</head>
+<body>
+    <div id="dituContent" class="ditu-content"></div>
     <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
     <script>
         //创建和初始化地图函数：
@@ -62,7 +81,7 @@
             }
             
             //标注点数组
-            var markerArr = [{title:"贵溪土鸡",content:"江西省、 鹰潭市、贵溪市、流口镇官庄村。贵溪散养土鸡养殖出厂地，电话：13687011233。欢迎前来购买",point:"117.25112|28.176348",isOpen:1,icon:{w:30,h:45,l:0,t:0,x:6,lb:5}}
+            var markerArr = [{title:"贵溪土鸡",content:"江西省、 鹰潭市、贵溪市、流口镇官庄村。<br/>贵溪散养土鸡养殖出厂地，电话：13687011233。欢迎前来购买",point:"117.25112|28.176348",isOpen:1,icon:{w:30,h:45,l:0,t:0,x:6,lb:5}}
                 ];
             //创建marker
             function addMarker(){
