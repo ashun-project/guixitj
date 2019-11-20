@@ -105,6 +105,15 @@ router.get('/', function (req, res) {
     res.render('index', listObj);
 });
 
+// 关于我们
+router.get('/aboutUs', function(req, res) {
+    var listObj = {
+        domain: domain,
+        terminal: req.terminal
+    }
+    res.render('about_us', listObj);
+})
+
 // 列表页
 router.get('/meitu', function (req, res) {
     meituList(req, res, 'all', 1);

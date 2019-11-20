@@ -1,0 +1,160 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title 关于我们 - 贵溪土鸡
+        meta(name="keywords", content="关于贵溪土鸡,关于贵溪土鸡蛋")
+        meta(name="description", content="我们来自江西省，鹰潭市，贵溪市，流口镇一个普普通通的农村。父母是地地道道的农民。在家养殖贵溪土鸡(www.guixitj.com)有需要的联系我们。")
+        link(rel="canonical", href="#{domain.pc}/aboutUs")
+        link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m}/aboutUs")
+        meta(name="mobile-agent", content="format=html5;url=#{domain.m}/aboutUs")
+        meta(name="applicable-device", content="pc")
+        meta(http-equiv="Cache-Control", content="no-transform")
+        meta(http-equiv="Cache-Control", content="no-siteapp")
+        meta(name="renderer", content="webkit")
+        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
+        link(rel="shortcut icon", href="#{domain.static}/img/favicon.ico", type="image/x-icon")
+    body.about-page
+        include ../include/header.jade
+        p.curr-positon.width-1100
+            span 当前位置：
+            a(href="#{domain.pc}/") 首页
+            span  &gt;&nbsp;关于我们
+        .about-us
+            div.width-1100
+                div.us-img
+                    img(src="#{domain.static}/img/about.jpg", alt="关于我们")
+                div.us-cont
+                    div.column-title
+                        span 我们的简介
+                    span.cont &nbsp;&nbsp;&nbsp;&nbsp;大家好：我们来自江西省，鹰潭市，贵溪市，流口镇一个普普通通的农村。父母是地地道道的农民，为人实在。家在山区租了一块地常年散养土鸡，给在城里的亲戚、朋友以及想吃贵溪土鸡的人们提供纯正的土鸡。保证绿色，保证营养，保证健康。想吃的朋友们，过节送礼的朋友们，请联系我们。也欢迎附近的人们来我家做客，看看我们贵溪农村土鸡的生长环境。
+        .width-1100.map-point
+            p.map-tip 去购买贵溪土鸡要怎么走？下图红点标记的是贵溪农家土鸡的具体位置标注，您可以拖动， 双击放大缩小地图。
+            //- #dituContent.ditu-content
+            iframe#my-map(name="content", src="#{domain.static}/html/map.html" frameborder='0', scrolling='no', width='100%')
+        .life-show.width-1100
+            ul
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    span
+                        a(href="", target="_blank") 生活的点点滴滴
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/2.jpg", alt="")
+                    span
+                        a(href="", title="") 生活的点点滴滴
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/2.jpg", alt="")
+                    span
+                        a(href="", target="_blank") 生活的点点滴滴
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    span
+                        a(href="", target="_blank") 生活的点点滴滴
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/2.jpg", alt="")
+                    span
+                        a(href="", target="_blank") 生活的点点滴滴
+        include ../include/footer.jade
+        
+        //- script(type="text/javascript", src="http://api.map.baidu.com/api?key=&v=1.1&services=true")
+        script.
+            //创建和初始化地图函数：
+            function initMap(){
+                createMap();//创建地图
+                setMapEvent();//设置地图事件
+                addMapControl();//向地图添加控件
+                addMarker();//向地图中添加marker
+            }
+            
+            //创建地图函数：
+            function createMap(){
+                var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+                var point = new BMap.Point(117.250438,28.176476);//定义一个中心点坐标
+                map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+                window.map = map;//将map变量存储在全局
+            }
+            
+            //地图事件设置函数：
+            function setMapEvent(){
+                map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+                map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+                map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+                map.enableKeyboard();//启用键盘上下左右键移动地图
+            }
+            
+            //地图控件添加函数：
+            function addMapControl(){
+                //向地图中添加缩放控件
+                var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+                map.addControl(ctrl_nav);
+                    //向地图中添加缩略图控件
+                var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+                map.addControl(ctrl_ove);
+                    //向地图中添加比例尺控件
+                var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+                map.addControl(ctrl_sca);
+            }
+            
+            //标注点数组
+            var markerArr = [{title:"贵溪土鸡",content:"江西省、 鹰潭市、贵溪市、流口镇官庄村。贵溪散养土鸡养殖出厂地，电话：13687011233。欢迎前来购买",point:"117.25112|28.176348",isOpen:1,icon:{w:30,h:45,l:0,t:0,x:6,lb:5}}
+                ];
+            //创建marker
+            function addMarker(){
+                for(var i=0;i<markerArr.length;i++){
+                    var json = markerArr[i];
+                    var p0 = json.point.split("|")[0];
+                    var p1 = json.point.split("|")[1];
+                    var point = new BMap.Point(p0,p1);
+                    var iconImg = createIcon(json.icon);
+                    var marker = new BMap.Marker(point,{icon:iconImg});
+                    var iw = createInfoWindow(i);
+                    var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+                    marker.setLabel(label);
+                    map.addOverlay(marker);
+                    label.setStyle({
+                                borderColor:"#808080",
+                                color:"#333",
+                                cursor:"pointer"
+                    });
+                    
+                    (function(){
+                        var index = i;
+                        var _iw = createInfoWindow(i);
+                        var _marker = marker;
+                        _marker.addEventListener("click",function(){
+                            this.openInfoWindow(_iw);
+                        });
+                        _iw.addEventListener("open",function(){
+                            _marker.getLabel().hide();
+                        })
+                        _iw.addEventListener("close",function(){
+                            _marker.getLabel().show();
+                        })
+                        label.addEventListener("click",function(){
+                            _marker.openInfoWindow(_iw);
+                        })
+                        if(!!json.isOpen){
+                            label.hide();
+                            _marker.openInfoWindow(_iw);
+                        }
+                    })()
+                }
+            }
+            //创建InfoWindow
+            function createInfoWindow(i){
+                var json = markerArr[i];
+                var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+                return iw;
+            }
+            //创建一个Icon
+            function createIcon(json){
+                var icon = new BMap.Icon("img/map.gif", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+                return icon;
+            }
+            
+            //- initMap();//创建和初始化地图
