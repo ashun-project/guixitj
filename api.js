@@ -72,6 +72,24 @@ router.get('/news', function(req, res) {
     res.render('news', listObj);
 })
 
+// 常见问题
+router.get('/questions', function(req, res) {
+    var listObj = {
+        domain: domain,
+        terminal: req.terminal
+    }
+    res.render('questions', listObj);
+})
+
+// 最近出售
+router.get('/trade', function(req, res) {
+    var listObj = {
+        domain: domain,
+        terminal: req.terminal
+    }
+    res.render('trade', listObj);
+})
+
 
 // 列表页
 router.get('/meitu', function (req, res) {
