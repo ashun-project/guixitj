@@ -11,6 +11,14 @@ var pool = mysql.createPool({
     database: 'qqzh'
 });
 
+//form表单需要的中间件。
+var mutipart= require('connect-multiparty');
+var mutipartMiddeware = mutipart({
+    uploadDir: './public/tmp'
+});
+//下面会修改临时文件的储存位置，如过没有会默认储存别的地方，这里不在详细描述,这个修改临时文件储存的位置 我在百度里查找了三四个小时才找到这个方法，不得不说nodejs真难学。
+//所以在这里留下我的学习记录，以备以后翻阅。
+
 function getClientIP(req) {
     return req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
         req.connection.remoteAddress || // 判断 connection 的远程 IP
@@ -20,7 +28,7 @@ function getClientIP(req) {
 var domain = {
     pc: 'http://www.guixitj.com',
     m: 'http://m.guixitj.com',
-    static: ''
+    static: 'http://localhost:8888'
 }
 // 路由拦截
 router.all('*', function (req, res, next) {
@@ -38,9 +46,32 @@ router.all('*', function (req, res, next) {
     if (req.url.indexOf('.php') > -1) {
         return get404(req, res)
     }
-
-    next();
+    if (req.method.toLowerCase() == 'options') {
+        res.send(200);  //让options尝试请求快速结束
+    } else {
+        next();
+    }
 })
+//这里就是接受form表单请求的接口路径，请求方式为post。
+router.post('/upload',mutipartMiddeware,function (req,res) {
+    //这里打印可以看到接收到文件的信息。
+    console.log(req.files.file.path, req.files.file.name);
+    /*//do something
+    * 成功接受到浏览器传来的文件。我们可以在这里写对文件的一系列操作。例如重命名，修改文件储存路径 。等等。
+    *
+    *
+    * */
+//    注意：文件上传前端form标签里做这样的标识enctype="multipart/form-data"
+//    var source = fs.createReadStream(path);
+//    var dest = fs.createWriteStream(output);
+   
+//    source.pipe(dest);
+//    source.on('end', function() { fs.unlinkSync(path);});   //delete
+//    source.on('error', function(err) {  });
+    //给浏览器返回一个成功提示。
+    res.json({file_path: domain.static + req.files.file.path.replace('public', '')});
+});
+
 // 首页
 router.get('/', function (req, res) {
     // var host = 'http://'+req.headers['host'];
@@ -55,7 +86,7 @@ router.get('/', function (req, res) {
 });
 
 // 关于我们
-router.get('/aboutUs', function(req, res) {
+router.get('/aboutus', function(req, res) {
     var listObj = {
         domain: domain,
         terminal: req.terminal
@@ -88,6 +119,29 @@ router.get('/trade', function(req, res) {
         terminal: req.terminal
     }
     res.render('trade', listObj);
+})
+
+// 最近出售
+router.get('/life', function(req, res) {
+    var listObj = {
+        domain: domain,
+        terminal: req.terminal
+    }
+    res.render('life', listObj);
+})
+
+// 最近出售
+router.get('/detail', function(req, res) {
+    // title 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 性感妹子 - 妹子图
+    // descript 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 第1页 - 妹子图每日分享最新最全的高清性感美女图片
+    var listObj = {
+        pageTitle: '贵溪土鸡',
+        pageDescrition: '贵溪土鸡网',
+        pageUrl: '',
+        domain: domain,
+        terminal: req.terminal
+    }
+    res.render('detail', listObj);
 })
 
 

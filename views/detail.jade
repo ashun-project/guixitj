@@ -1,0 +1,60 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title=pageTitle
+        meta(name="keywords", content="")
+        meta(name="description", content="#{pageDescrition}")
+        link(rel="canonical", href="#{domain.pc + pageUrl}")
+        //- link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m + pageUrl}")
+        //- meta(name="mobile-agent", content="format=html5;url=#{domain.m + pageUrl}")
+        meta(name="applicable-device", content="pc")
+        meta(http-equiv="Cache-Control", content="no-transform")
+        meta(http-equiv="Cache-Control", content="no-siteapp")
+        meta(name="renderer", content="webkit")
+        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
+        link(rel="shortcut icon", href="#{domain.static}/img/favicon.ico", type="image/x-icon")
+    body.life
+        include ../include/header.jade
+        p.curr-positon.width-1100
+            span 当前位置：
+            a(href="#{domain.pc}/") 首页
+            span &nbsp;&gt;&nbsp;
+            a(href="") #{pageTitle}
+            span &nbsp;&gt;&nbsp;#{pageTitle}
+        div.detail.width-1100
+            div.detail-cont
+                h2 怎么散养土鸡？土鸡养殖技术大全
+                p.texin 时间：2019-08-09 14:26:00&nbsp;&nbsp;&nbsp;&nbsp;来源：贵溪土鸡网&nbsp;&nbsp;&nbsp;&nbsp;编辑：阿顺
+                div.cont
+                    p(style="line-height:20px") 我们来自江西省，鹰潭市，贵溪市，流口镇一个普普通通的农村。父母是地地道道的农民，为人实在。家在山区租了一块地常年散养土鸡，给在城里的亲戚、朋友以及想吃贵溪土鸡的人们提供纯正的土鸡。保证绿色，保证营养，保证健康。想吃的朋友们，过节送礼的朋友们，请联系我们。也欢迎附近的人们来我家做客，看看我们贵溪农村土鸡的生长环境。 散养的贵溪土鸡一般疾病少、耐粗饲，但是细节决定成败，散养土鸡看似简单，但也离不开技术管理，那么怎么散养土鸡？土鸡养殖技术大全。
+            div.news-tuijian
+                div.column-title
+                    span 推荐新闻
+                    a(href="") 更多&gt;
+                ul
+                    li
+                        
+                        a(href="", target="_blank") 贵溪土鸡苗孵化中
+                    li
+                  
+                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
+                    li
+                        
+                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
+                    li
+                      
+                        a(href="", target="_blank") 贵溪土鸡苗孵化中
+                    li
+                       
+                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
+                    li
+                       
+                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                    li
+                       
+                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                    li
+                       
+                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+        include ../include/footer.jade

@@ -1,0 +1,68 @@
+doctype html 5
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title 农家生活 - 贵溪土鸡
+        meta(name="keywords", content="农家生活,贵溪土鸡的农家生活，贵溪日常生活")
+        meta(name="description", content="我们来自小小的农村，大清早起来就开始喂养贵溪土鸡下午去树林里面检查或寻找土鸡蛋，生活简单而充实。")
+        link(rel="canonical", href="#{domain.pc}/life")
+        //- link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m}/life")
+        //- meta(name="mobile-agent", content="format=html5;url=#{domain.m}/life")
+        meta(name="applicable-device", content="pc")
+        meta(http-equiv="Cache-Control", content="no-transform")
+        meta(http-equiv="Cache-Control", content="no-siteapp")
+        meta(name="renderer", content="webkit")
+        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
+        link(rel="shortcut icon", href="#{domain.static}/img/favicon.ico", type="image/x-icon")
+    body.life
+        include ../include/header.jade
+        p.curr-positon.width-1100
+            span 当前位置：
+            a(href="#{domain.pc}/") 首页
+            span &nbsp;&gt;&nbsp;农家生活
+        .life-list.width-1100
+            ul
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    p
+                        a(href="", target="_blank") 生活的点点滴滴
+                    p
+                        span 上传：橙子
+                        span 2019-09-08
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    p
+                        a(href="", target="_blank") 生活的点点滴滴
+                    p
+                        span 上传：橙子
+                        span 2019-09-08
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    p
+                        a(href="", target="_blank") 生活的点点滴滴
+                    p
+                        span 上传：橙子
+                        span 2019-09-08
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    p
+                        a(href="", target="_blank") 生活的点点滴滴
+                    p
+                        span 上传：橙子
+                        span 2019-09-08
+                li
+                    a(href="", target="_blank")
+                        img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    p
+                        a(href="", target="_blank") 生活的点点滴滴
+                    p
+                        span 上传：橙子
+                        span 2019-09-08
+                li.no-cont
+                li.no-cont
+                li.no-cont
+        include ../include/footer.jade

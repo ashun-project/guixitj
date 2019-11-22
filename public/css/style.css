@@ -22,7 +22,7 @@ ul,li{
   list-style: none;
 }
 body{
-  background: #fff;
+  background: #f7f8f8;
   font-size: 14px;
 }
 .width-1100{
@@ -95,6 +95,21 @@ body{
   font-size: 16px;
   color: #fff;
   margin-right: 20px;
+  position: relative;
+}
+.menu ul li a.active::before{
+  content: '';
+  display: block;
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  margin-left: -10px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid #fff;
 }
 .menu ul li a:hover{
   color: #f26363;
@@ -268,10 +283,10 @@ body{
   display: block;
   height: 30px;
   line-height: 30px;
-  background: #000;
+  background: #423838;
 }
 .life-show li a{
-  color: #fff;
+  color: #dedede;
 }
 .life-show li a:hover{
   color: #f26363;
@@ -434,8 +449,8 @@ body{
   margin-bottom: 20px;
 }
 .map-point .map-tip{
-  height: 35px;
-  line-height: 35px;
+  height: 50px;
+  line-height: 50px;
   /* background: #928a8a; */
   color: #666;
   padding-left: 20px;
@@ -446,10 +461,10 @@ body{
 .map-point .map-tip::before{
   content: '';
   width: 2px;
-  height: 15px;
+  height: 16px;
   background: #CC5522;
   position: absolute;
-  top: 10px;
+  top: 17px;
   left: 10px;
 }
 #my-map{
@@ -667,4 +682,83 @@ body{
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+/* 农家生活 */
+.life-list ul{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.life-list ul li{
+  width: 266px;
+  padding: 20px;
+  background: #fff;
+  margin-bottom: 10px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+.life-list ul li.no-cont{
+  background: none;
+  box-shadow: none;
+}
+.life-list ul li a{
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 30px;
+  color: #444;
+}
+.life-list ul li a:hover{
+  color: #f26363;
+}
+.life-list ul li p{
+  display: flex;
+  justify-content: space-between;
+}
+.life-list ul li span{
+  color: #999;
+}
+/* 详情 */
+.detail{
+  position: relative;
+  min-height: 650px;
+}
+.detail-cont{
+  padding-top: 50px;
+  width: 700px;
+}
+.detail-cont h2{
+  font-size: 24px;
+  color: #3E3A39;
+}
+.detail-cont .texin{
+  line-height: 24px;
+  color: #898989;
+  font-size: 14px;
+  border-bottom: 1px solid #E4E4E5;
+  margin-top: 15px;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+.news-tuijian{
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  border: 1px solid #eee;
+  padding: 10px;
+  width: 300px;
+}
+.news-tuijian li{
+  line-height: 30px;
+}
+.news-tuijian li a{
+  color: #333;
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.news-tuijian li a:hover{
+  color: #f26363;
 }
