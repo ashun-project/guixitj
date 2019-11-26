@@ -1,0 +1,151 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title 管理
+        script(src="https://code.jquery.com/jquery-3.1.1.min.js")
+        script(src="/admin/scripts/module.js")
+        script(src="/admin/scripts/uploader.js")
+        script(src="/admin/scripts/hotkeys.js")
+        script(src="/admin/scripts/simditor.js")
+        //- link(rel="stylesheet", href="/admin/styles/app.css")
+        //- link(rel="stylesheet", href="/admin/styles/mobile.css")
+        link(rel="stylesheet", href="/admin/styles/simditor.css")
+    body
+        div.form-cont
+            label(for="") 类型：
+            select(name="", id="list-type")
+                option(value="1") 最近出售
+                option(value="2") 农家生活
+                option(value="3") 站内新闻
+        div.form-cont.form-title
+            label(for="") 标题：
+            input(id="title", type="text")
+        div.form-cont.form-depict
+            label(for="") 描述：
+            input(id="depict", type="text")
+        div.form-cont.form-amount
+            label(for="") 数量：
+            input(id="amount", type="number")
+        form(enctype="multipart/form-data", id="uploadImg")
+            | 上传文件:  
+            input(name="file", type="file", id="file")
+        textarea(name="comment", id="editor")
+        button(id="saveData") 保存
+        script.
+            var editor = new Simditor({
+                toolbar: [
+                    'title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale',
+                    'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link',
+                    'image', 'hr', '|', 'alignment'
+                ],
+                textarea: '#editor',
+                placeholder: '写点什么...',
+                // defaultImage: '/static/home/images/logo.png',
+                imageButton: ['upload'],
+                upload: {
+                    url: '/upload',
+                    params: {_token: ''},
+                    fileKey: 'file',
+                    leaveConfirm: '正在上传文件..',
+                    connectionCount: 3
+                }
+            });
+            var logo = '';
+            $('input[type="file"]').on('change', function(){
+                var file = this.files[0];
+                var formData = new FormData();
+                var fileName = file.name;    
+                var file_typename = fileName.toString().substring(fileName.lastIndexOf('.'), fileName.length);    
+                formData.append('file', file);
+                if (file_typename !== '.jpg' && file_typename !== '.gif' && file_typename !== '.png') {
+                    alert('请选择图片文件')
+                    return;
+                }
+                if (file.size > 300 * 1024) {
+                    alert('图片不能大于300KB')
+                    return;
+                }
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    //dataType: 'json',
+                    //async: false,
+                    processData: false,    //不需要对数据做任何预处理
+                    contentType: false,    //不设置数据格式
+                }).done(function(res) {
+                    console.log(res)
+                    if (res &&  res.file_src) {
+                        logo = res.file_src
+                    } else {
+                        alert('上传失败');
+                    }
+                }).fail(function(res) {
+                    console.log(res)
+                    alert('上传失败');
+                });
+            })
+            $('#saveData').click(function() {
+                var txt = editor.getValue();
+                var obj = {
+                    type: $('#list-type').val() || 1,
+                    title: $('#title').val(),
+                    amount: $('#amount').val(),
+                    depict: $('#depict').val(),
+                    logo: logo,
+                    cont: txt
+                }
+                if (obj.type == '2' || obj.type == '3') {
+                    delete obj.amount;
+                    delete obj.depict;
+                    if (obj.type == '3') {
+                        delete obj.logo;
+                    }
+                }
+                var err = '';
+                for(var key in obj) {
+                    if(!obj[key]) {
+                        err = '请填写完内容'
+                    }
+                }
+                if (!err) {
+                    $.ajax({
+                        url: '/insertIntoDataList',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: obj,
+                        success: function (result) {
+                            if (result.err) {
+                                alert('保存失败');
+                            } else {
+                                alert('保存成功');
+                                window.location.reload();
+                            }
+                        },
+                        error: function() {
+                            alert('保存失败');
+                        }
+                    })
+                } else {
+                    alert(err)
+                }
+            });
+            $('#list-type').change(function() {
+                var value = $('#list-type').val();
+                if(value == '1') {
+                    $('.form-depict').show();
+                    $('.form-amount').show();
+                    $('#uploadImg').show();
+                } else if(value == '2') {
+                    $('.form-amount').hide();
+                    $('.form-depict').hide();
+                    $('#uploadImg').show();
+                } else {
+                    $('.form-amount').hide();
+                    $('.form-depict').hide();
+                    $('#uploadImg').hide();
+                }
+            })

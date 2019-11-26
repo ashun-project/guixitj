@@ -5,10 +5,11 @@ var mysql = require('mysql');
 var fs = require('fs');
 var pageModule = require('./page');
 var pool = mysql.createPool({
+    connectionLimit: 100,
     host: 'localhost',
     user: 'root',
     password: 'ashun666',
-    database: 'qqzh'
+    database: 'guixitj'
 });
 
 //form表单需要的中间件。
@@ -28,7 +29,7 @@ function getClientIP(req) {
 var domain = {
     pc: 'http://www.guixitj.com',
     m: 'http://m.guixitj.com',
-    static: 'http://localhost:8888'
+    static: ''
 }
 // 路由拦截
 router.all('*', function (req, res, next) {
@@ -52,25 +53,6 @@ router.all('*', function (req, res, next) {
         next();
     }
 })
-//这里就是接受form表单请求的接口路径，请求方式为post。
-router.post('/upload',mutipartMiddeware,function (req,res) {
-    //这里打印可以看到接收到文件的信息。
-    console.log(req.files.file.path, req.files.file.name);
-    /*//do something
-    * 成功接受到浏览器传来的文件。我们可以在这里写对文件的一系列操作。例如重命名，修改文件储存路径 。等等。
-    *
-    *
-    * */
-//    注意：文件上传前端form标签里做这样的标识enctype="multipart/form-data"
-//    var source = fs.createReadStream(path);
-//    var dest = fs.createWriteStream(output);
-   
-//    source.pipe(dest);
-//    source.on('end', function() { fs.unlinkSync(path);});   //delete
-//    source.on('error', function(err) {  });
-    //给浏览器返回一个成功提示。
-    res.json({file_path: domain.static + req.files.file.path.replace('public', '')});
-});
 
 // 首页
 router.get('/', function (req, res) {
@@ -98,7 +80,8 @@ router.get('/aboutus', function(req, res) {
 router.get('/news', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal
+        terminal: req.terminal,
+        pageTxt: '【第2页】'
     }
     res.render('news', listObj);
 })
@@ -116,7 +99,8 @@ router.get('/questions', function(req, res) {
 router.get('/trade', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal
+        terminal: req.terminal,
+        pageTxt: '【第2页】'
     }
     res.render('trade', listObj);
 })
@@ -125,7 +109,8 @@ router.get('/trade', function(req, res) {
 router.get('/life', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal
+        terminal: req.terminal,
+        pageTxt: '【第2页】'
     }
     res.render('life', listObj);
 })
@@ -143,6 +128,75 @@ router.get('/detail', function(req, res) {
     }
     res.render('detail', listObj);
 })
+
+// 后台管理页面
+router.get('/ashun/admin', function(req, res) {
+    res.render('admin');
+})
+
+// 文件上传
+router.post('/upload',mutipartMiddeware,function (req,res) {  
+    var path = req.files.file.path.replace(/\\/g, '\/');
+    console.log(path);
+    res.json({file_path: domain.static + path.replace('public', ''), file_src: path.replace('public/tmp', '')});
+});
+
+// 添加数据
+router.post('/insertIntoDataList',function(req,res){
+    var params = req.body;
+    var create_time = new Date().getTime();
+    // type类型 1：出售  2：生活  3：新闻
+    pool.getConnection(function (err, conn) {
+        var sqList = "INSERT INTO data_list(type,logo,title,create_time,amount,depict) VALUES (?,?,?,?,?,?)";
+        var sqListInfo = [params.type, params.logo, params.title, create_time, params.amount, params.depict];
+        var sqDetail = "INSERT INTO data_detail(id,content,type,title,create_time,amount) VALUES (?,?,?,?,?,?)";
+        conn.query(sqList, sqListInfo, function (err, rows, fields) {
+            if (err) {
+                res.json({err:err.message});//返回给前端
+                conn.release();//关闭连接池
+            } else {
+                var list_id = rows.insertId
+                var sqDetailInfo = [list_id, params.cont, params.type, params.title, create_time, params.amount];
+                conn.query(sqDetail, sqDetailInfo, function (err2, rows, fields) {
+                    var response = '';
+                    if (err2) {
+                        response = {err:err2.message};
+                    }else{
+                        response = {success:'success'}
+                    }
+                    res.json(response);
+                    conn.release();
+                    if (params.type !== '3') {
+                        moveFile(params);
+                    }
+                });
+            }
+        });
+    })
+})
+
+// 迁移临时文件
+function moveFile(obj) {
+    fs.exists('./public/tmp' + obj.logo, function(exists) {
+        if (exists) {
+            try{
+                var source = fs.createReadStream('./public/tmp' + obj.logo);
+                if (obj.type == '2') {
+                    var dest = fs.createWriteStream('./public/img/life' + obj.logo);
+                } else {
+                    var dest = fs.createWriteStream('./public/img/trade' + obj.logo);
+                }
+                source.pipe(dest);
+            }catch{
+                console.log('迁移文件出错')
+            }
+        } else {
+            console.log('文件不存在')
+        }
+    })
+    // source.on('end', function() { fs.unlinkSync(path);});   //delete
+    // source.on('error', function(err) {  });
+}
 
 
 // 列表页
