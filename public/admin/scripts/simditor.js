@@ -4543,6 +4543,7 @@ ImageButton = (function(superClass) {
         }
         _this.loadImage($img, img_path, function() {
           var $mask;
+          $img.attr('file-src', result.file_src)
           $img.removeData('file');
           $img.removeClass('uploading').removeClass('loading');
           $mask = $img.data('mask');

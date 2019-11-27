@@ -166,8 +166,8 @@ router.post('/insertIntoDataList',function(req,res){
                     }
                     res.json(response);
                     conn.release();
-                    if (params.type !== '3') {
-                        moveFile(params);
+                    for (var i = 0; i < params.imgs.length; i++) {
+                        moveFile(params.type, params.imgs[i]);
                     }
                 });
             }
@@ -176,15 +176,15 @@ router.post('/insertIntoDataList',function(req,res){
 })
 
 // 迁移临时文件
-function moveFile(obj) {
-    fs.exists('./public/tmp' + obj.logo, function(exists) {
+function moveFile(type, src) {
+    fs.exists('./public/tmp' + src, function(exists) {
         if (exists) {
             try{
-                var source = fs.createReadStream('./public/tmp' + obj.logo);
-                if (obj.type == '2') {
-                    var dest = fs.createWriteStream('./public/img/life' + obj.logo);
+                var source = fs.createReadStream('./public/tmp' + src);
+                if (type == '2') {
+                    var dest = fs.createWriteStream('./public/img/life' + src);
                 } else {
-                    var dest = fs.createWriteStream('./public/img/trade' + obj.logo);
+                    var dest = fs.createWriteStream('./public/img/trade' + src);
                 }
                 source.pipe(dest);
             }catch{
