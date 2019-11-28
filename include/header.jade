@@ -8,15 +8,27 @@
                 span.phone 13687011233
             .menu
                 ul
-                    li
-                        a.active(href="", title="") 首页
-                    li
-                        a(href="", title="") 最近出售
-                    li
-                        a(href="", title="") 农家生活
-                    li
-                        a(href="", title="") 本站新闻
-                    li
-                        a(href="", title="") 常见问题
-                    li
-                        a(href="", title="") 关于我们
+                    -
+                        var menus = [
+                            {url: '/', page: 'index', name: '首页'},
+                            {url: '/trade/', page: 'trade', name: '最近出售'},
+                            {url: '/life/', page: 'life', name: '农家生活'},
+                            {url: '/news/', page: 'news', name: '本站新闻'},
+                            {url: '/questions/', page: 'questions', name: '常见问题'},
+                            {url: '/aboutus/', page: 'aboutus', name: '关于我们'}
+                        ];
+                    each item in menus
+                        li
+                            a(href="#{domain.pc+item.url}", title="#{item.name}", class="#{pageUrl.indexOf(item.page) > -1 ? 'active' : ''}") #{item.name}
+                    //- li
+                    //-     a.active(href="", title="") 首页
+                    //- li
+                    //-     a(href="", title="") 最近出售
+                    //- li
+                    //-     a(href="", title="") 农家生活
+                    //- li
+                    //-     a(href="", title="") 本站新闻
+                    //- li
+                    //-     a(href="", title="") 常见问题
+                    //- li
+                    //-     a(href="", title="") 关于我们

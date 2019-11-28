@@ -16,9 +16,9 @@ html(lang="en")
         div.form-cont
             label(for="") 类型：
             select(name="", id="list-type")
-                option(value="1") 最近出售
-                option(value="2") 农家生活
-                option(value="3") 站内新闻
+                option(value="trade") 最近出售
+                option(value="life") 农家生活
+                option(value="news") 站内新闻
         div.form-cont.form-title
             label(for="") 标题：
             input(id="title", type="text")
@@ -90,17 +90,17 @@ html(lang="en")
             $('#saveData').click(function() {
                 var txt = editor.getValue();
                 var obj = {
-                    type: $('#list-type').val() || 1,
+                    type: $('#list-type').val() || 'trade',
                     title: $('#title').val(),
                     amount: $('#amount').val(),
                     depict: $('#depict').val(),
                     logo: logo,
                     cont: txt
                 }
-                if (obj.type == '2' || obj.type == '3') {
+                if (obj.type !== 'trade') {
                     delete obj.amount;
                     delete obj.depict;
-                    if (obj.type == '3') {
+                    if (obj.type == 'news') {
                         delete obj.logo;
                     }
                 }
@@ -109,6 +109,12 @@ html(lang="en")
                     if(!obj[key]) {
                         err = '请填写完内容'
                     }
+                }
+                if (obj.title.length > 50) {
+                    err = '标题内容太长'
+                }
+                if (obj.depict && obj.depict.length > 50) {
+                    err = '描述内容太长'
                 }
                 obj.imgs = getImg(obj);
                 if (!err) {
@@ -120,7 +126,7 @@ html(lang="en")
                         data: JSON.stringify(obj),
                         success: function (result) {
                             if (result.err) {
-                                alert('保存失败');
+                                alert(result.err);
                             } else {
                                 alert('保存成功');
                                 window.location.reload();
@@ -147,11 +153,11 @@ html(lang="en")
             }
             $('#list-type').change(function() {
                 var value = $('#list-type').val();
-                if(value == '1') {
+                if(value == 'trade') {
                     $('.form-depict').show();
                     $('.form-amount').show();
                     $('#uploadImg').show();
-                } else if(value == '2') {
+                } else if(value == 'life') {
                     $('.form-amount').hide();
                     $('.form-depict').hide();
                     $('#uploadImg').show();

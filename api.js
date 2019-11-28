@@ -27,8 +27,8 @@ function getClientIP(req) {
         req.connection.socket.remoteAddress;
 };
 var domain = {
-    pc: 'http://www.guixitj.com',
-    m: 'http://m.guixitj.com',
+    pc: '',//'http://www.guixitj.com',
+    m: '',//'http://m.guixitj.com',
     static: ''
 }
 // 路由拦截
@@ -57,72 +57,92 @@ router.all('*', function (req, res, next) {
 // 首页
 router.get('/', function (req, res) {
     // var host = 'http://'+req.headers['host'];
-    var listObj = {
-        // pageTitle: '情趣综合平台',
-        // pageKeyword: '情趣综合平台,美女图片,美女写真,妹子,美女,星闻,绯闻八卦,明星资料，明星活动,qqzhpt,qqzhpt.com',
-        // pageDescrition: '情趣综合平台是一家专门收集整理全网超高清的美女写真网站,分享各类美女图片、丝袜美腿、性感MM、清纯妹子等极品美女写真;全部超高清无杂乱水印！明星娱乐八卦新闻,明星绯闻,影视资讯,音乐资讯,八卦爆料,娱乐视频等',
-        domain: domain,
-        terminal: req.terminal
-    }
-    res.render('index', listObj);
+    var sql = 'select a.* from (select * from data_list where type = "life" order by id desc limit 5) a union all select b.* from (select * from data_list where type = "trade" order by id desc limit 4) b union all select c.* from (select * from data_list where type = "news" order by id desc limit 8) c';
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            var dataList = result || [];
+            var dataObj = {
+                life: [],
+                trade: [],
+                news: []
+            }
+            for (var i = 0; i < dataList.length; i++) {
+                dataObj[dataList[i].type].push(dataList[i]);
+            }
+            console.log(dataObj)
+            var listObj = {
+                // pageTitle: '情趣综合平台',
+                // pageKeyword: '情趣综合平台,美女图片,美女写真,妹子,美女,星闻,绯闻八卦,明星资料，明星活动,qqzhpt,qqzhpt.com',
+                // pageDescrition: '情趣综合平台是一家专门收集整理全网超高清的美女写真网站,分享各类美女图片、丝袜美腿、性感MM、清纯妹子等极品美女写真;全部超高清无杂乱水印！明星娱乐八卦新闻,明星绯闻,影视资讯,音乐资讯,八卦爆料,娱乐视频等',
+                domain: domain,
+                life: dataObj.life,
+                trade: dataObj.trade,
+                news: dataObj.news,
+                pageUrl: 'index'
+            }
+            res.render('index', listObj);
+            conn.release();
+        })
+    })
 });
 
 // 关于我们
 router.get('/aboutus', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal
+        pageUrl: req.url
     }
     res.render('about_us', listObj);
-})
-
-// 站内新闻
-router.get('/news', function(req, res) {
-    var listObj = {
-        domain: domain,
-        terminal: req.terminal,
-        pageTxt: '【第2页】'
-    }
-    res.render('news', listObj);
 })
 
 // 常见问题
 router.get('/questions', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal
+        pageUrl: req.url
     }
     res.render('questions', listObj);
+})
+
+// 站内新闻
+router.get('/news', function(req, res) {
+    var listObj = {
+        domain: domain,
+        pageTxt: '【第2页】',
+        pageUrl: req.url
+    }
+    res.render('news', listObj);
 })
 
 // 最近出售
 router.get('/trade', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal,
-        pageTxt: '【第2页】'
+        pageTxt: '【第2页】',
+        pageUrl: req.url
     }
     res.render('trade', listObj);
 })
 
-// 最近出售
+// 农家生活
 router.get('/life', function(req, res) {
     var listObj = {
         domain: domain,
-        terminal: req.terminal,
-        pageTxt: '【第2页】'
+        pageTxt: '【第2页】',
+        pageUrl: req.url
     }
     res.render('life', listObj);
 })
 
-// 最近出售
+// 文章详情
 router.get('/detail', function(req, res) {
     // title 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 性感妹子 - 妹子图
     // descript 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 第1页 - 妹子图每日分享最新最全的高清性感美女图片
     var listObj = {
         pageTitle: '贵溪土鸡',
         pageDescrition: '贵溪土鸡网',
-        pageUrl: '',
+        pageUrl: req.url,
         domain: domain,
         terminal: req.terminal
     }
@@ -145,7 +165,6 @@ router.post('/upload',mutipartMiddeware,function (req,res) {
 router.post('/insertIntoDataList',function(req,res){
     var params = req.body;
     var create_time = new Date().getTime();
-    // type类型 1：出售  2：生活  3：新闻
     pool.getConnection(function (err, conn) {
         var sqList = "INSERT INTO data_list(type,logo,title,create_time,amount,depict) VALUES (?,?,?,?,?,?)";
         var sqListInfo = [params.type, params.logo, params.title, create_time, params.amount, params.depict];
@@ -181,11 +200,12 @@ function moveFile(type, src) {
         if (exists) {
             try{
                 var source = fs.createReadStream('./public/tmp' + src);
-                if (type == '2') {
-                    var dest = fs.createWriteStream('./public/img/life' + src);
-                } else {
-                    var dest = fs.createWriteStream('./public/img/trade' + src);
-                }
+                var dest = fs.createWriteStream('./public/img/' + type + src);
+                // if (type == '2') {
+                //     var dest = fs.createWriteStream('./public/img/life' + src);
+                // } else {
+                //     var dest = fs.createWriteStream('./public/img/trade' + src);
+                // }
                 source.pipe(dest);
             }catch{
                 console.log('迁移文件出错')
@@ -609,9 +629,6 @@ router.post('/friendly/add', function (req,res){
 router.get('*', get404);
 function get404(req, res) {
     var listObj = {
-        pageTitle: '404页面_情趣综合平台',
-        pageKeyword: '美女图片,美女写真,妹子,美女,mm,美女,qqzh8,qqzh8.com',
-        pageDescrition: '情趣综合平台是一家专门收集整理全网超高清的美女写真网站,分享各类美女图片、丝袜美腿、性感MM、清纯妹子等极品美女写真;全部超高清无杂乱水印！',
         host: 'http://'+req.headers['host']
     }
     res.status(404);

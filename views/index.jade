@@ -15,117 +15,42 @@ html
         link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
         link(rel="shortcut icon", href="#{domain.static}/img/favicon.ico", type="image/x-icon")
     body
-        .head-top
-            .logo-phone.width-1100
-                h1.logo
-                    a(href="#{domain.pc}/", title="贵溪土鸡") 贵溪土鸡
-                .core
-                    div.kobei
-                        span.biaoyu 纯正散养贵溪土鸡/品质的保证绿色的生态环境
-                        span.phone 13687011233
-                    .menu
-                        ul
-                            li
-                                a(href="", title="") 首页
-                            li
-                                a(href="", title="") 最近出售
-                            li
-                                a(href="", title="") 农家生活
-                            li
-                                a(href="", title="") 本站新闻
-                            li
-                                a(href="", title="") 常见问题
-                            li
-                                a(href="", title="") 关于我们
+        include ../include/header.jade
         .banner.width-1100
             img(src="#{domain.static}/img/banner.jpg", alt="贵溪农家生态土鸡")
         .notice.width-1100
-            | 为保证质量，我们养殖的土鸡数量并都不多，想要订购的朋友，抓紧时间提早下单
+            marquee(direction="left", onmouseout="this.start();", onmouseover="this.stop();", scrolldelay="100")
+                | 为保证质量，我们养殖的土鸡数量并都不多，想要订购的朋友，抓紧时间提早下单
         .trade-news.width-1100
             .lf
                 div.column-title
                     span 最近出售记录
-                    a(href="") 更多&gt;
+                    a(href="#{domain.pc}/trade/") 更多&gt;
                 ul
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10(只)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
+                    each item in trade
+                        li
+                            .diagram
+                                a(href="#{domain.pc + '/detail/' + item.id}" target="_blank")
+                                    img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                            .cont
+                                p 
+                                    a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
+                                p.biaoshi 出售：#{item.amount}&nbsp;(只)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：#{item.create_time}
+                                p.essay #{item.depict}
             .rf
                 div.wrap
                     div.column-title
                         span 本站新闻
-                        a(href="") 更多&gt;
+                        a(href="#{domain.pc}/news/") 更多&gt;
                     ul
-                        li
-                            i 1
-                            a(href="", target="_blank") 贵溪土鸡苗孵化中
-                        li
-                            i 2
-                            a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                        li
-                            i 3
-                            a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
-                        li
-                            i 4
-                            a(href="", target="_blank") 贵溪土鸡苗孵化中
-                        li
-                            i 5
-                            a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                        li
-                            i 6
-                            a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                        li
-                            i 7
-                            a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                        li
-                            i 8
-                            a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                        each item, idx in trade
+                            li
+                                i #{idx+1}
+                                a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
                 div.wrap.wrap-t
                     div.column-title
                         span 常见问题
-                        a(href="") 更多&gt;
+                        a(href="#{domain.pc}/questions/") 更多&gt;
                     div.question
                         p.qt
                             i 问：
@@ -146,38 +71,19 @@ html
                 div.us-cont
                     div.column-title
                         span 关于我们
-                        a(href="") 更多
+                        a(href="#{domain.pc}/aboutus/") 更多
                     span.cont &nbsp;&nbsp;&nbsp;&nbsp;大家好：我们来自江西省，鹰潭市，贵溪市，流口镇一个普普通通的农村。父母是地地道道的农民，为人实在。家在山区租了一块地常年散养土鸡，给在城里的亲戚、朋友以及想吃贵溪土鸡的人们提供纯正的土鸡。保证绿色，保证营养，保证健康。想吃的朋友们，过节送礼的朋友们，请联系我们。也欢迎附近的人们来我家做客，看看我们贵溪农村土鸡的生长环境。
         .life-show.width-1100
             div.column-title
                 span 农家生活
-                a(href="") 更多&gt;
+                a(href="#{domain.pc}/life/") 更多&gt;
             ul
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", title="") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
+                each item in life
+                    li
+                        a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
+                            img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                        span
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
         .fried-link.width-1100
             h6 友情链接
             ul
@@ -187,95 +93,4 @@ html
                     a(href="", target="_blank") 贵溪土鸡回收
                 li
                     a(href="", target="_blank") 土鸡蛋批发
-        .footer
-            .width-1100
-                ul
-                    
-                    li
-                        a(href="", title="") 首页
-                    li
-                        a(href="", title="") 最近出售
-                    li
-                        a(href="", title="") 农家生活
-                    li
-                        a(href="", title="") 本站新闻
-                    li
-                        a(href="", title="") 常见问题
-                    li
-                        a(href="", title="") 关于我们
-                div.superiority
-                    p.tui 不是土鸡无偿退款
-                    p.price 价格绝对实在
-                    p.song 风雨无阻送货上门
-                div
-                    p.num 订购：13687011233
-                    .qr-code
-                        div
-                            img(src="#{domain.static}/img/qr.png", alt="")
-                            span 扫一扫 手机访问
-                        div
-                            img(src="#{domain.static}/img/qr.png", alt="")
-                            span 扫一扫 微信客服
-        .float-w
-            div.call-ico
-                img(src="#{domain.static}/img/timg.gif", alt="")
-            p 立即订购
-            div.cont
-                div
-                    span 手机：13687011233
-                    img(src="#{domain.static}/img/qr.png", alt="")
-                    span 扫一扫添加微信
-        .dibu
-            | 最终解释权归本站所有
-
-        //- 不是土鸡无偿退款
-        //- 价格绝对实在
-        //- 风雨无阻送货上门
-        //- 最终解释权归本站所有
-        //- include ../include/header.jade
-        //- .banner.idx
-        //-     img(src="#{host}/img/inba.jpg", alt="情趣综合平台-banner")
-        //- .index-item
-        //-     .xingwen-list
-        //-         h2.series #{listData.xingwen.name}
-        //-             a.rf(href="#{host}/xingwen/", title="星闻") 更多
-        //-         ul
-        //-             each item in listData.xingwen.list
-        //-                 li
-        //-                     .list-img
-        //-                         a(href="#{host+'/xingwen/'+item.type+'/'+item.id}", title="#{item.title}", target="_blank")
-        //-                             img(src="#{item.img.replace('http://img.mingxing.com','http://img.qqzhpt.com/xingwenstatic')}", alt="#{item.title}")
-        //-                     .list-cont
-        //-                         a(href="#{host+'/xingwen/'+item.type+'/'+item.id}", title="#{item.title}", target="_blank")
-        //-                             h3 #{item.title}
-        //-                         p #{item.txt}
-        //-                         i #{item.time}
-        //-     .meitu-list
-        //-         h2.series #{listData.meitu.name}
-        //-             a.rf(href="#{host}/meitu/", title="精品美图") 更多
-        //-         .data-list
-        //-             each vv in listData.meitu.list
-        //-                 a(href="#{host+'/meitu/detail/'+vv.id}", title="#{vv.title}", target="_blank")
-        //-                     .list-img
-        //-                         img(src="#{vv.img.replace(/https\:\/\/mtl\.ttsqgs\.com|https\:\/\/mtl\.xtpxw\.com/,'http://img.qqzhpt.com/meitustatic') + '?' + new Date().getTime()}", alt="#{vv.title}")
-        //-                     .list-profile
-        //-                         p #{vv.imglen}
-        //-                         p #{vv.jigou}
-        //-                         p #{vv.mutie}
-        //-                     .list-title
-        //-                         strong #{vv.title}
-        //- .friendly
-        //-     h3 友情链接
-        //-     a(href="http://www.baidu.com", target="_blank") 
-        //-         span 百度一下
-        //-     a(href="http://www.360tvbuy.com/", target="_blank") 
-        //-         span LV包包
-        //-     a(href="http://www.jioonn.com", target="_blank")
-        //-         span 成人用品
-        //-     a(href="http://www.371yc.cn/", target="_blank")
-        //-         span 371影视资讯                   
-        //-     a(href="http://www.fjbdk.com/", target="_blank")
-        //-         span 靖江新闻网
-        //- script
-        //-     include ../include/header_menu.js
-        //- include ../include/footer.jade
+        include ../include/footer.jade
