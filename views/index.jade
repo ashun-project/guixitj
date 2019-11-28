@@ -43,7 +43,7 @@ html
                         span 本站新闻
                         a(href="#{domain.pc}/news/") 更多&gt;
                     ul
-                        each item, idx in trade
+                        each item, idx in news
                             li
                                 i #{idx+1}
                                 a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}

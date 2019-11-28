@@ -34,29 +34,10 @@ html
             iframe#my-map(name="content", src="#{domain.static}/html/map.html" frameborder='0', scrolling='no', width='100%')
         .life-show.width-1100
             ul
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", title="") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    span
-                        a(href="", target="_blank") 生活的点点滴滴
+                each item in life
+                    li
+                        a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
+                            img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                        span
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
         include ../include/footer.jade

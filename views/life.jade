@@ -22,47 +22,17 @@ html
             span &nbsp;&gt;&nbsp;农家生活
         .life-list.width-1100
             ul
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    p
-                        a(href="", target="_blank") 生活的点点滴滴
-                    p
-                        span 上传：橙子
-                        span 2019-09-08
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    p
-                        a(href="", target="_blank") 生活的点点滴滴
-                    p
-                        span 上传：橙子
-                        span 2019-09-08
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    p
-                        a(href="", target="_blank") 生活的点点滴滴
-                    p
-                        span 上传：橙子
-                        span 2019-09-08
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    p
-                        a(href="", target="_blank") 生活的点点滴滴
-                    p
-                        span 上传：橙子
-                        span 2019-09-08
-                li
-                    a(href="", target="_blank")
-                        img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    p
-                        a(href="", target="_blank") 生活的点点滴滴
-                    p
-                        span 上传：橙子
-                        span 2019-09-08
+                each item in life
+                    li
+                        a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
+                            img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                        p
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
+                        p
+                            span 上传：橙子
+                            span #{item.create_time}
                 li.no-cont
                 li.no-cont
                 li.no-cont
+            .page !{page}
         include ../include/footer.jade

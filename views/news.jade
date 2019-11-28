@@ -24,23 +24,15 @@ html
             .life-tuijian
                 div.column-title
                     span 我们的生活
-                    a(href="") 更多&gt;
+                    a(href="#{domain.pc}/life/") 更多&gt;
                 ul
-                    li
-                        a(href="", target="_blank")
-                            img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    li
-                        a(href="", target="_blank")
-                            img(src="#{domain.static}/img/life/1.jpg", alt="")
-                    li
-                        a(href="", target="_blank")
-                            img(src="#{domain.static}/img/life/2.jpg", alt="")
-                    li
-                        a(href="", target="_blank")
-                            img(src="#{domain.static}/img/life/1.jpg", alt="")
+                    each item in life
+                        li
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
+                                img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
                 div.column-title
                     span 常见问题
-                    a(href="") 详情&gt;
+                    a(href="#{domain.pc}/questions/") 详情&gt;
                 div.question
                     p.qt
                         i 问：
@@ -57,40 +49,10 @@ html
             .news-list
                 p.list-title 站内新闻列表
                 ul
-                    li
-                        a(href="", target="_blank") 远赴80公里购买土鸡
-                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
-                    li
-                        a(href="", target="_blank") 远赴80公里购买土鸡
-                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
-                    li
-                        a(href="", target="_blank") 远赴80公里购买土鸡
-                        span.biaoshi 编辑：橙子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02 23:33
-                //- div.qr-mobile
-                //-     img(src="#{domain.static}/img/qr.png", alt="")
-                //-     span 扫一扫 手机访问
-            //- div 
-            //- div.column-title
-            //-         span 本站新闻
-            //-         a(href="") 更多
-            //- ul
-            //-     li
-            //-         i 1
-            //-         a(href="", target="_blank") 贵溪土鸡苗孵化中
-            //-     li
-            //-         i 2
-            //-         a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-            //-     li
-            //-         i 3
-            //-         a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
-            //-     li
-            //-         i 4
-            //-         a(href="", target="_blank") 贵溪土鸡苗孵化中
-            //-     li
-            //-         i 5
-            //-         a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-            //-     li
-            //-         i 6
-            //-         a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                    each item in news
+                        li
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
+                            span.biaoshi 编辑：阿顺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：#{item.create_time}
+                .page !{page}
         include ../include/footer.jade
             

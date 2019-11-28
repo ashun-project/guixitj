@@ -24,32 +24,12 @@ html
             div.cont-lf
                 div.column-title
                     span 本站新闻
-                    a(href="") 更多&gt;
+                    a(href="#{domain.pc}/news/") 更多&gt;
                 ul
-                    li
-                        i 1
-                        a(href="", target="_blank") 贵溪土鸡苗孵化中
-                    li
-                        i 2
-                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                    li
-                        i 3
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
-                    li
-                        i 4
-                        a(href="", target="_blank") 贵溪土鸡苗孵化中
-                    li
-                        i 5
-                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                    li
-                        i 6
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                    li
-                        i 7
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                    li
-                        i 8
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                    each item, idx in news
+                        li
+                            i #{idx+1}
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
             div.question.q-questions
                 p.qt
                     i 问：

@@ -502,9 +502,6 @@ body{
   height: 50px;
   border-bottom: 1px solid #eee;
 }
-.news-cont .news-list li:last-child{
-  border: 0;
-}
 .news-cont .news-list li a{
   font-size: 16px;
   color: rgb(58, 58, 58);
@@ -539,6 +536,7 @@ body{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  min-height: 220px;
 }
 .news-cont .life-tuijian li{
   width: 134px;
@@ -753,6 +751,12 @@ body{
   padding-bottom: 10px;
   margin-bottom: 30px;
 }
+.detail-cont .cont{
+  line-height: 30px;
+  font-size: 14px;
+  color: #444;
+  text-indent: 28px;
+}
 .news-tuijian{
   position: absolute;
   top: 10px;
@@ -760,6 +764,7 @@ body{
   border: 1px solid #eee;
   padding: 10px;
   width: 300px;
+  min-height: 370px;
 }
 .news-tuijian li{
   line-height: 30px;
@@ -774,4 +779,43 @@ body{
 }
 .news-tuijian li a:hover{
   color: #f26363;
+}
+.page{
+  max-width: 1000px;
+  width: 100%;
+  margin: 30px auto 0;
+  text-align: center;
+  padding: 10px 0;
+}
+.page span, .page a{
+  display: inline-block;
+  padding: 3px 10px;
+  margin: 2px;
+  border: 1px solid #eee;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(51, 51, 51, 0.09019);
+  border-radius: 2px;
+}
+.page span {
+  color: #828181;
+}
+.page a.active{
+  background: #d18654;
+  color: #fff;
+}
+.page span.current-page{
+  border: 0;
+  background: none;
+  color: #666;
+  box-shadow: none;
+  font-size: 14px;
+}
+.page a{
+  color: #000;
+}
+.page a:hover{
+  color: #f07d7d;
+}
+.page a.active:hover{
+  color: #fff;
 }

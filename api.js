@@ -57,7 +57,7 @@ router.all('*', function (req, res, next) {
 // 首页
 router.get('/', function (req, res) {
     // var host = 'http://'+req.headers['host'];
-    var sql = 'select a.* from (select * from data_list where type = "life" order by id desc limit 5) a union all select b.* from (select * from data_list where type = "trade" order by id desc limit 4) b union all select c.* from (select * from data_list where type = "news" order by id desc limit 8) c';
+    var sql = 'select a.* from (select * from data_list where type = "life" order by id desc limit 5) a union all select b.* from (select * from data_list where type = "trade" order by id desc limit 4) b union all select c.* from (select * from data_list where type = "news" order by id desc limit 6) c';
     pool.getConnection(function (err, conn) {
         if (err) console.log("POOL /==> " + err);
         conn.query(sql, function (err, result) {
@@ -70,11 +70,7 @@ router.get('/', function (req, res) {
             for (var i = 0; i < dataList.length; i++) {
                 dataObj[dataList[i].type].push(dataList[i]);
             }
-            console.log(dataObj)
             var listObj = {
-                // pageTitle: '情趣综合平台',
-                // pageKeyword: '情趣综合平台,美女图片,美女写真,妹子,美女,星闻,绯闻八卦,明星资料，明星活动,qqzhpt,qqzhpt.com',
-                // pageDescrition: '情趣综合平台是一家专门收集整理全网超高清的美女写真网站,分享各类美女图片、丝袜美腿、性感MM、清纯妹子等极品美女写真;全部超高清无杂乱水印！明星娱乐八卦新闻,明星绯闻,影视资讯,音乐资讯,八卦爆料,娱乐视频等',
                 domain: domain,
                 life: dataObj.life,
                 trade: dataObj.trade,
@@ -89,64 +85,198 @@ router.get('/', function (req, res) {
 
 // 关于我们
 router.get('/aboutus', function(req, res) {
-    var listObj = {
-        domain: domain,
-        pageUrl: req.url
-    }
-    res.render('about_us', listObj);
+    var sql = 'SELECT * FROM data_list where type = "life" order by id desc limit 4';
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            var listObj = {
+                domain: domain,
+                pageUrl: req.url,
+                life: result || []
+            }
+            res.render('about_us', listObj);
+            conn.release();
+        })
+    })
 })
 
 // 常见问题
 router.get('/questions', function(req, res) {
-    var listObj = {
-        domain: domain,
-        pageUrl: req.url
-    }
-    res.render('questions', listObj);
+    var sql = 'SELECT * FROM data_list where type = "news" order by id desc limit 8';
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            var listObj = {
+                domain: domain,
+                pageUrl: req.url,
+                news: result || []
+            }
+            res.render('questions', listObj);
+            conn.release();
+        })
+    })
 })
 
 // 站内新闻
-router.get('/news', function(req, res) {
+router.get('/news', function (req, res) {
+    getNewsDataList(req, res, '1');
+});
+router.get('/news/:page', function (req, res) {
+    getNewsDataList(req, res, req.params.page);
+});
+function getNewsDataList(req, res, page) {
+    var limit = Number(page);
+    var limitBefore = ((limit - 1) * 12);
+    var sql = 'select a.* from (select * from data_list where type = "news" order by id desc limit '+ limitBefore + ',' + 12 +') a union all select b.* from (select * from data_list where type = "life" order by id desc limit 4) b';
+    var count = 'SELECT COUNT(1) FROM data_list where type = "news"';
     var listObj = {
         domain: domain,
-        pageTxt: '【第2页】',
-        pageUrl: req.url
+        pageTxt: limit > 1 ? '【第' + limit + '页】' : '',
+        pageUrl: req.url,
+        news: [],
+        life: []
+    };
+    if (!limit) {
+        get404(req, res);
+        return;
     }
-    res.render('news', listObj);
-})
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            if (err) {
+                res.render(type, listObj);
+                conn.release();
+            } else {
+                conn.query(count, function (errC, total) {
+                    var resultTotal = Number(total[0]['COUNT(1)']) || 0;
+                    var resultList = result || [];
+                    for (var i = 0; i < resultList.length; i++) {
+                        listObj[resultList[i].type].push(resultList[i]);
+                    }
+                    listObj.page = resultTotal ? pageModule(resultTotal, limit, domain.pc + '/news') : '';
+                    res.render('news', listObj);
+                    conn.release();
+                })
+            }
+        })
+    })
+}
 
 // 最近出售
-router.get('/trade', function(req, res) {
+router.get('/trade', function (req, res) {
+    getTradeDataList(req, res, 'trade', '1');
+});
+router.get('/trade/:page', function (req, res) {
+    getTradeDataList(req, res, 'trade', req.params.page);
+});
+function getTradeDataList(req, res, type, page) {
+    var limit = Number(page);
+    var limitBefore = ((limit - 1) * 12);
+    var sql = 'select a.* from (select * from data_list where type = "'+ type +'" order by id desc limit '+ limitBefore + ',' + 12 +') a union all select b.* from (select * from data_list where type = "news" order by id desc limit 8) b';
+    var count = 'SELECT COUNT(1) FROM data_list where type = "'+ type +'"';
     var listObj = {
         domain: domain,
-        pageTxt: '【第2页】',
-        pageUrl: req.url
+        pageTxt: limit > 1 ? '【第' + limit + '页】' : '',
+        pageUrl: req.url,
+        news: []
+    };
+    listObj[type] = [];
+    if (!limit) {
+        get404(req, res);
+        return;
     }
-    res.render('trade', listObj);
-})
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            if (err) {
+                res.render(type, listObj);
+                conn.release();
+            } else {
+                conn.query(count, function (errC, total) {
+                    var resultTotal = Number(total[0]['COUNT(1)']) || 0;
+                    var resultList = result || [];
+                    for (var i = 0; i < resultList.length; i++) {
+                        listObj[resultList[i].type].push(resultList[i]);
+                    }
+                    listObj.page = resultTotal ? pageModule(resultTotal, limit, domain.pc + '/' + type) : '';
+                    res.render(type, listObj);
+                    conn.release();
+                })
+            }
+        })
+    })
+}
 
 // 农家生活
-router.get('/life', function(req, res) {
+router.get('/life', function (req, res) {
+    getLifeDataList(req, res, '1');
+});
+router.get('/life/:page', function (req, res) {
+    getLifeDataList(req, res, req.params.page);
+});
+function getLifeDataList(req, res, page) {
+    var limit = Number(page);
+    var limitBefore = ((limit - 1) * 12);
+    var sql = 'SELECT * FROM data_list where type = "life" order by id desc limit ' + limitBefore + ',' + 12;
+    var count = 'SELECT COUNT(1) FROM data_list where type = "life"';
     var listObj = {
         domain: domain,
-        pageTxt: '【第2页】',
-        pageUrl: req.url
+        pageTxt: limit > 1 ? '【第' + limit + '页】' : '',
+        pageUrl: req.url,
+        life: []
+    };
+    if (!limit) {
+        get404(req, res);
+        return;
     }
-    res.render('life', listObj);
-})
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            if (err) {
+                res.render(type, listObj);
+                conn.release();
+            } else {
+                conn.query(count, function (errC, total) {
+                    var resultTotal = Number(total[0]['COUNT(1)']) || 0;
+                    listObj.life = result || [];
+                    listObj.page = resultTotal ? pageModule(resultTotal, limit, domain.pc + '/news') : '';
+                    res.render('life', listObj);
+                    conn.release();
+                })
+            }
+        })
+    })
+}
 
 // 文章详情
-router.get('/detail', function(req, res) {
-    // title 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 性感妹子 - 妹子图
-    // descript 风骚艳妇王语纯大胆人体艺术照，红色内衣尽显妖娆身姿 - 第1页 - 妹子图每日分享最新最全的高清性感美女图片
+router.get('/detail/:id', function(req, res) {
     var listObj = {
-        pageTitle: '贵溪土鸡',
-        pageDescrition: '贵溪土鸡网',
+        // pageTitle: obj.title + ' - 贵溪土鸡',
+        // pageDescrition: obj.title + ' - 贵溪土鸡每日分享农家生活，近日出售，站内新闻相关文章',
         pageUrl: req.url,
         domain: domain,
-        terminal: req.terminal
+        objData: {title: '没有找到数据', content: '数据出错'},
+        typeTxt: {trade: '最近出售', news: '站内新闻', life: '农家生活'},
+        newsList: []
     }
-    res.render('detail', listObj);
+    var sql = 'SELECT * FROM data_detail where id = "' + req.params.id +'"';
+    var tuijian = 'SELECT * FROM data_list where type = "news" order by id desc limit 8';
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL /==> " + err);
+        conn.query(sql, function (err, result) {
+            if (err) {
+                res.render('detail', listObj);
+                conn.release();
+            } else {
+                conn.query(tuijian, function (err, resultList) {
+                    listObj.objData = result[0] || {};
+                    listObj.newsList = resultList || [];
+                    res.render('detail', listObj);
+                    conn.release();
+                })
+            }
+        })
+    })
 })
 
 // 后台管理页面
@@ -162,12 +292,22 @@ router.post('/upload',mutipartMiddeware,function (req,res) {
 });
 
 // 添加数据
+function getFormatDate(time) {
+    var date = time ? new Date(time) : new Date();
+    var str = '';
+    var dateArr = [date.getFullYear(), '-', date.getMonth() + 1, '-', date.getDate(), ' ', date.getHours(), ':', date.getMinutes()];
+    dateArr.forEach(item => {
+        if (typeof item === 'number' && item < 10) item = '0' + item;
+        str += item;
+    });
+    return str;
+}
 router.post('/insertIntoDataList',function(req,res){
     var params = req.body;
     var create_time = new Date().getTime();
     pool.getConnection(function (err, conn) {
         var sqList = "INSERT INTO data_list(type,logo,title,create_time,amount,depict) VALUES (?,?,?,?,?,?)";
-        var sqListInfo = [params.type, params.logo, params.title, create_time, params.amount, params.depict];
+        var sqListInfo = [params.type, params.logo, params.title, getFormatDate(), params.amount, params.depict];
         var sqDetail = "INSERT INTO data_detail(id,content,type,title,create_time,amount) VALUES (?,?,?,?,?,?)";
         conn.query(sqList, sqListInfo, function (err, rows, fields) {
             if (err) {
@@ -175,7 +315,7 @@ router.post('/insertIntoDataList',function(req,res){
                 conn.release();//关闭连接池
             } else {
                 var list_id = rows.insertId
-                var sqDetailInfo = [list_id, params.cont, params.type, params.title, create_time, params.amount];
+                var sqDetailInfo = [list_id, params.cont, params.type, params.title, getFormatDate(), params.amount];
                 conn.query(sqDetail, sqDetailInfo, function (err2, rows, fields) {
                     var response = '';
                     if (err2) {
@@ -217,413 +357,6 @@ function moveFile(type, src) {
     // source.on('end', function() { fs.unlinkSync(path);});   //delete
     // source.on('error', function(err) {  });
 }
-
-
-// 列表页
-router.get('/meitu', function (req, res) {
-    meituList(req, res, 'all', 1);
-});
-router.get('/meitu/page/:page', function (req, res) {
-    meituList(req, res, 'all', req.params.page);
-});
-router.get('/meitu/:type', function (req, res) {
-    meituList(req, res, req.params.type, 1);
-});
-router.get('/meitu/:type/page/:page', function (req, res) {
-    var filter = meituMenus.filter(function (item) {
-        return item.type === req.params.type;
-    })[0];
-    if (filter && req.params.page == '1') {
-        res.writeHead(301, {'Location': 'http://'+req.headers['host']+'/meitu/'+filter.type+'/'});
-        res.end();
-    } else {
-        meituList(req, res, req.params.type, req.params.page);
-    }
-});
-function meituList(req, res, type, page){
-    var limit = Number(page);
-    var limitBefore = ((limit - 1) * 20);
-    var filter = meituMenus.filter(function (item) {
-        return item.type === type;
-    })[0];
-    if (!filter || !limit) {
-        get404(req, res);
-        return;
-    } else {
-        var sql = 'SELECT t1.*,t2.type FROM meitu_list t1 inner join meitu_list_rela t2 on t1.id = t2.list_id where t2.type = "' + type +'" order by t1.id desc limit ' + (limitBefore + ',' + 20);
-        var count = 'SELECT COUNT(1) FROM meitu_list t1 inner join meitu_list_rela t2 on t1.id = t2.list_id where t2.type = "' + type +'"';
-        if(type == 'all') {
-            sql = 'SELECT * FROM meitu_list order by id desc limit ' + (limitBefore + ',' + 20);
-            count = 'SELECT COUNT(1) FROM meitu_list';
-        }
-        pool.getConnection(function (err, conn) {
-            if (err) console.log("POOL /==> " + err);
-            conn.query(sql, function (err, resultList) {
-                conn.query(count, function (errC, total) {
-                    var host = 'http://'+req.headers['host'];
-                    var result = filterTitle(resultList||[]);
-                    var listObj = {
-                        listData: result,
-                        // headerHtml: getHeaderMenu('meitu', host),
-                        childMenus: childMenus,
-                        type: 'meitu/'+type,
-                        page: pageModule(Number(total[0]['COUNT(1)']) || 0, limit, host+'/meitu'+(type == 'all'? '' : '/'+type)),
-                        pageTitle: filter.title + '_情趣综合平台' + (limit>1? '_第'+ limit +'页' : ''),
-                        pageKeyword: filter.keyword,
-                        pageDescrition: filter.desc,
-                        host: host,
-                        terminal: req.terminal
-                    }
-                    res.render('meitu_list', listObj);
-                    conn.release();
-                });
-            });
-        });
-    }
-}
-
-//  搜索页
-router.get('/meitu/search/:value', function (req, res) {
-    getMeituSearch(req, res, req.params.value, '1');
-})
-router.get('/meitu/search/:value/page/:page', function (req, res) {
-    getMeituSearch(req, res, req.params.value, req.params.page);
-})
-function getMeituSearch (req, res, searchCont, page) {
-    var limit = Number(page) || 1;
-    var limitBefore = ((limit - 1) * 20);
-    var value = searchCont.replace(/&&/g, '_');
-    var sql = 'SELECT * FROM meitu_list where title like "' +'%'+ value +'%'+ '" order by id desc limit ' + (limitBefore + ',' + 20);
-    var count = 'SELECT COUNT(1) FROM meitu_list where title like "' +'%'+ value +'%'+ '"';
-    pool.getConnection(function (err, conn) {
-        if (err) console.log("POOL /==> " + err);
-        conn.query(sql, function (err, resultList) {
-            conn.query(count, function (errC, total) {
-                var resultTotal = Number(total[0]['COUNT(1)']) || 0;
-                var host = 'http://'+req.headers['host'];
-                var result = filterTitle(resultList||[]);
-                var listObj = {
-                    listData: result,
-                    // headerHtml: getHeaderMenu('meitu', host),
-                    childMenus: childMenus,
-                    type: 'meitu/tag',
-                    searchCont: value,
-                    searchTotal: resultTotal,
-                    page: resultTotal ? pageModule(resultTotal, limit, host+'/meitu/search/'+searchCont) : '',
-                    pageTitle: value+'_美图搜索_情趣综合平台'+(limit>1? '_第'+ limit +'页' : ''),
-                    pageKeyword: '美图搜索,美女图片,美女写真,妹子,美女,mm,美女,qqzh8,qqzh8.com',
-                    pageDescrition: '情趣综合平台美图搜索全网超高清的美女写真网站,分享各类美女图片、丝袜美腿、性感MM、清纯妹子等极品美女写真;全部超高清无杂乱水印！',
-                    host: host,
-                    terminal: req.terminal
-                }
-                res.render('meitu_search', listObj);
-                conn.release();
-            });
-        });
-    });
-}
-
-// 详情页
-router.get('/meitu/detail/:id', function (req, res) {
-    getMeituDetail(req, res, req.params.id, 1);
-})
-router.get('/meitu/detail/:id/:page', function (req, res) {
-    getMeituDetail(req, res, req.params.id, Number(req.params.page));
-})
-function getMeituDetail(req, res, id, page){
-    var sql = 'SELECT * FROM meitu_detail where id = "' + id +'"';
-    pool.getConnection(function (err, conn) {
-        if (err) console.log("POOL /==> " + err);
-        conn.query(sql, function (err, resultList) {
-            var result = filterTitle(resultList||[]);
-            var obj = result[0] || {};
-            var host = 'http://'+req.headers['host'];
-            var imgs = [];
-            var lens = 0;
-            var pageCont = '';
-            var url = '';
-            if (obj.imgs) {
-                imgs = obj.imgs.split(',');
-                lens = Math.ceil(imgs.length / 5);
-                for(var i = 1; i <= lens; i++){
-                    url = host + '/meitu/detail/' + id + '/' + i;
-                    if (i === 1)  url = host + '/meitu/detail/' + id;
-                    pageCont += '<a class="'+ (i === page ? 'active' : '') +'" href="'+ url +'">'+ i +'</a>'
-                }
-            }
-            var listObj = {
-                // headerHtml: getHeaderMenu('meitu', host),
-                childMenus: childMenus,
-                pageTitle: obj.title || '数据丢失',
-                type: 'meitu/',
-                page: pageCont,
-                imgs: imgs.slice(page*5-5, page*5),
-                totalImgs: imgs,
-                host: host,
-                terminal: req.terminal
-            }
-            var reNum = Math.floor(Math.random()*(1 - 10000) + 10000);//10000
-            var recommondSql = 'SELECT t1.*,t2.type FROM meitu_list t1 inner join meitu_list_rela t2 on t1.id = t2.list_id order by t1.id desc limit ' + (reNum + ',' + 8);
-            conn.query(recommondSql, function (err, recommondResult) {
-                // console.log(reNum, '====', '记得改随机数', getClientIP(req));
-                listObj.recommond = filterTitle(recommondResult||[]);
-                res.render('meitu_detail', listObj);
-                conn.release();
-            })
-            
-        });
-    });
-}
-
-// 星闻列表
-router.get('/xingwen', function(req, res) {
-    xingwenList(req, res, 'all', 1);
-});
-router.get('/xingwen/page/:page', function(req, res) {
-    xingwenList(req, res, 'all', req.params.page);
-});
-router.get('/xingwen/:type', function (req, res) {
-    xingwenList(req, res, req.params.type, 1);
-})
-router.get('/xingwen/:type/page/:page', function (req, res) {
-    xingwenList(req, res, req.params.type, req.params.page);
-})
-function xingwenList(req, res, type, page){
-    var limit = Number(page);
-    var limitBefore = ((limit - 1) * 20);
-    var filter = xingwenMenus.filter(function (item) {
-        return item.type === type;
-    })[0];
-    if (!filter || !limit) {
-        get404(req, res);
-        return;
-    } else {
-        var sql = 'SELECT * FROM xingwen_list where type = "' + type + '" order by id desc limit ' + (limitBefore + ',' + 20);
-        var count = 'SELECT COUNT(1) FROM xingwen_list where type = "' + type + '"';
-        if (filter.type == 'all') {
-            sql =  'SELECT * FROM xingwen_list order by id desc limit ' + (limitBefore + ',' + 20);
-            count = 'SELECT COUNT(1) FROM xingwen_list';
-        }
-        pool.getConnection(function (err, conn) {
-            if (err) console.log("POOL /==> " + err);
-            conn.query(sql, function (err, resultList) {
-                conn.query(count, function (errC, total) {
-                    var host = 'http://'+req.headers['host'];
-                    var listObj = {
-                        listData: resultList,
-                        childMenus: childMenus,
-                        type: 'xingwen/'+type,
-                        page: pageModule(Number(total[0]['COUNT(1)']) || 0, limit, host+'/xingwen'+(type== 'all'? '' : '/'+type)),
-                        pageTitle: filter.title + '_情趣综合平台' + (limit>1? '_第'+ limit +'页' : ''),
-                        pageKeyword: filter.keyword,
-                        pageDescrition: filter.desc,
-                        host: host,
-                        terminal: req.terminal
-                    }
-                    res.render('xingwen_list', listObj);
-                    conn.release();
-                });
-            });
-        });
-    }
-}
-
-// 星闻详情页
-router.get('/xingwen/:type/:id', function (req, res) {
-    if (req.params.type === 'search') {
-        getXingwenSearch(req, res, req.params.id, '1');
-    } else {
-        getXingwenDetail(req, res, req.params.type, req.params.id, 1);
-    }
-})
-router.get('/xingwen/:type/:id/:page', function (req, res) {
-    getXingwenDetail(req, res, req.params.type, req.params.id, Number(req.params.page));
-})
-function getXingwenDetail(req, res, type, id, page){
-    var sql = 'SELECT * FROM xingwen_detail where id = "' + id +'"';
-    var filter = xingwenMenus.filter(function (item) {
-        return item.type === type;
-    })[0];
-    if (type === 'quan') {
-        filter = {name: '标签', type: ''}
-    }
-    if (!filter || !page) {
-        get404(req, res);
-        return;
-    } else {
-        pool.getConnection(function (err, conn) {
-            if (err) console.log("POOL /==> " + err);
-            conn.query(sql, function (err, resultList) {
-                var obj = resultList[0] || {};
-                var host = 'http://'+req.headers['host'];
-                var txtList = '';
-                if (obj.txt) {
-                    var txtList = JSON.parse(obj.txt);
-                    var txtLen = Math.floor(Math.random()*txtList.length);
-                    for(var k = 0; k < txtList.length; k++) {
-                        var dou = txtList[k].split('，');
-                        var douLne = Math.floor(Math.random()*dou.length);
-                        var newDou = [];
-                        for(var b = 0; b < dou.length; b++) {
-                            if (b == douLne && b > 0) {
-                                newDou[b-1] = newDou[b-1]+dou[b];
-                            } else {
-                                newDou.push(dou[b]);
-                            }
-                        }
-                        txtList[k] = newDou.join('，');
-                    }
-                    txtList.splice(txtLen, 0, '<a href="'+ host +'/xingwen/'+ (filter.type|| 'all') +'/">本章来源情趣综合平台-'+ filter.name +'</a>')
-                }
-                var listObj = {
-                    childMenus: childMenus,
-                    pageTitle: obj.title || '数据丢失',
-                    position: filter,
-                    txt: txtList,//JSON.parse(obj.txt),
-                    type: 'xingwen/'+type,
-                    host: host,
-                    terminal: req.terminal
-                }
-                var reNum = Math.floor(Math.random()*(1 - 1000) + 1000);//10000
-                var recommondSql = 'SELECT * FROM xingwen_list where type = "'+ (filter.type||'huodong')  +'" order by id desc limit ' + (reNum + ',' + 4);
-                conn.query(recommondSql, function (err, recommondResult) {
-                    // console.log(reNum, '====', '记得改随机数', host)
-                    listObj.recommond = recommondResult.filter(function (item) {return item.id !== id});
-                    res.render('xingwen_detail', listObj);
-                    conn.release();
-                })
-            });
-        });
-    }
-}
-
-//  星闻搜索页
-router.get('/xingwen/search/:value/page/:page', function (req, res) {
-    getXingwenSearch(req, res, req.params.value, req.params.page);
-})
-function getXingwenSearch (req, res, searchCont, page) {
-    var limit = Number(page) || 1;
-    var limitBefore = ((limit - 1) * 20);
-    var value = searchCont.replace(/&&/g, '_');
-    var sql = 'SELECT * FROM xingwen_list where title like "' +'%'+ value +'%'+ '" order by id desc limit ' + (limitBefore + ',' + 20);
-    var count = 'SELECT COUNT(1) FROM xingwen_list where title like "' +'%'+ value +'%'+ '"';
-    pool.getConnection(function (err, conn) {
-        if (err) console.log("POOL /==> " + err);
-        conn.query(sql, function (err, resultList) {
-            conn.query(count, function (errC, total) {
-                var resultTotal = Number(total[0]['COUNT(1)']) || 0;
-                var host = 'http://'+req.headers['host'];
-                var result = filterTitle(resultList||[]);
-                var listObj = {
-                    listData: result,
-                    // headerHtml: getHeaderMenu('meitu', host),
-                    childMenus: childMenus,
-                    type: 'xingwen/tag',
-                    searchCont: value,
-                    searchTotal: resultTotal,
-                    page: resultTotal ? pageModule(resultTotal, limit, host+'/xingwen/search/'+searchCont) : '',
-                    pageTitle: value+'_星闻搜索_情趣综合平台'+(limit>1? '_第'+ limit +'页' : ''),
-                    pageKeyword: '星闻搜索,最新星闻,明星活动,明星趣事,美女明星,明星绯闻,qqzh8,qqzh8.com',
-                    pageDescrition: '情趣综合平台星闻搜索全网超高清的美女写真网站,分享各类明星活动、明星趣事、明星绯闻、最新星闻等资讯！',
-                    host: host,
-                    terminal: req.terminal
-                }
-                res.render('xingwen_search', listObj);
-                conn.release();
-            });
-        });
-    });
-}
-
-// 获取静态图片
-router.get('/meitustatic/*', function (req, res) {
-    getStaticImg (req, res, 'https://mtl.ttsqgs.com', 'https://www.meitulu.com/')
-});
-router.get('/xingwenstatic/*', function (req, res) {
-    getStaticImg (req, res, 'http://img.mingxing.com', 'http://www.mingxing.com')
-});
-function getStaticImg (req, res, urlHost, referer) {
-    var src = urlHost + req.url.replace(/\/xingwenstatic|\/meitustatic/, '');
-    var options = {
-        method: 'GET',
-        url: src,
-        gzip: true,
-        encoding: null,
-        // originalHostHeaderName: 'www.mingxing.com',
-        headers: {
-            "X-Forwarded-For": '42.194.64.18',
-            'User-Agent': 'Mozilla/8.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
-            'referer': referer,
-            'Cookie': "PHPSESSID=88f1qocpntbtjnp990pkqvo3a4; UM_distinctid=16846df58e71c8-0735f5020bd16-10326653-13c680-16846df58e8f22; CNZZDATA1273706240=1075868105-1547372666-http%253A%252F%252Fmvxoxo.com%252F%7C1547431260; CNZZDATA1275906764=206766016-1547375436-http%253A%252F%252Fmvxoxo.com%252F%7C1547430243"
-        }
-    };
-    let head = { 'Content-Type': 'image/jpeg' };
-    var rqRst = request(options);
-    res.writeHead(200, head);
-    rqRst.pipe(res);
-    // rqRst.on('end', function () {
-    //     // res.end();
-    // });
-    rqRst.on('error', function(err) {
-        console.log("错误信息:" + err);
-        res.end();
-    });
-}
-
-// 友情链接相关
-router.get('/friendly666', function (req, res) {
-    fs.readFile('./public/users.json',function(err,data){
-        var person = data.toString();//将二进制的数据转换为字符串
-        person = JSON.parse(person);//将字符串转换为json对象
-        res.render('friendly', person);
-    })
-});
-
-router.post('/friendly/del', function (req, res) {
-    var obj = req.body;
-    fs.readFile('./public/users.json',function(err,data){
-        var person = data.toString();//将二进制的数据转换为字符串
-        person = JSON.parse(person);//将字符串转换为json对象
-        for(var i = 0; i < person.data.length; i++){
-            if(obj.id == person.data[i].id){
-                person.data.splice(i,1);
-            }
-        }
-        var str = JSON.stringify(person);
-        //然后再把数据写进去
-        fs.writeFile('./public/users.json',str,function(err){
-            if(err){
-                console.error(err);
-            }
-        })
-        res.json({code: 200, msg: '删除成功'})
-    })
-})
-router.post('/friendly/add', function (req,res){
-    var params = req.body
-    //现将json文件读出来
-    fs.readFile('./public/users.json',function(err,data){
-        if(err){
-            return console.error(err);
-        }
-        var person = data.toString();//将二进制的数据转换为字符串
-        var id = 1;
-        person = JSON.parse(person);//将字符串转换为json对象
-        for (var i = 0; i < person.data.length; i++) {
-            if (person.data[i].id >= id) {
-                id = person.data[i].id + 1
-            }
-        }
-        params.id = id
-        person.data.push(params);//将传来的对象push进数组对象中
-        var str = JSON.stringify(person);//因为nodejs的写入文件只认识字符串或者二进制数，所以把json对象转换成字符串重新写入json文件中
-        fs.writeFile('./public/users.json',str,function(err){
-            if(err){r(err);
-            }
-        })
-        res.json({code: 200, msg: '添加成功', data: params})
-    })
-})
 
 // 404页
 router.get('*', get404);

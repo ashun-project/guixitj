@@ -24,78 +24,24 @@ html
             div.cont-lf
                 div.column-title
                     span 本站新闻
-                    a(href="") 更多&gt;
+                    a(href="#{domain.pc}/news/") 更多&gt;
                 ul
-                    li
-                        i 1
-                        a(href="", target="_blank") 贵溪土鸡苗孵化中
-                    li
-                        i 2
-                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                    li
-                        i 3
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡村土方法怎么么
-                    li
-                        i 4
-                        a(href="", target="_blank") 贵溪土鸡苗孵化中
-                    li
-                        i 5
-                        a(href="", target="_blank") 农村土鸡的怎么做比较好吃
-                    li
-                        i 6
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                    li
-                        i 7
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
-                    li
-                        i 8
-                        a(href="", target="_blank") 农村土方法怎么辨别散养鸡
+                    each item, idx in trade
+                        li
+                            i #{idx+1}
+                            a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
             div.cont-rf
                 p.trade-title 历史出售列表
                 ul
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10(只)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
-                    li
-                        .diagram
-                            a(href="" target="_blank")
-                                img(src="#{domain.static}/img/life/1.jpg", alt="")
-                        .cont
-                            p 
-                                a(href="", target="_blank") 远赴80公里购买土鸡
-                            p.biaoshi 出售：10（只）&nbsp;&nbsp;日期：2019-09-02
-                            p.essay 隔壁县城老李，听说朋友介绍咱家土鸡肉纯散养肉质鲜美。竟远赴80公里，开车来购买土鸡为娘亲庆80大寿
+                    each item in trade
+                        li
+                            .diagram
+                                a(href="#{domain.pc + '/detail/' + item.id}" target="_blank")
+                                    img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                            .cont
+                                p 
+                                    a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
+                                p.biaoshi 出售：#{item.amount}&nbsp;(只)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：#{item.create_time}
+                                p.essay #{item.depict}
+                .page !{page}
         include ../include/footer.jade
