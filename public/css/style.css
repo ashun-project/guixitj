@@ -24,7 +24,7 @@ ul,li{
 body{
   background: #f7f8f8;
   font-size: 14px;
-  background: url(../img/bk.jpg) no-repeat;
+  /* background: url(../img/bk.jpg) no-repeat; */
   background-size: 3000px;
 }
 .width-1100{
@@ -33,7 +33,7 @@ body{
 }
 .head-top{
   background: #000;
-  border-bottom: 1px solid #d1ffb0;
+  border-bottom: 1px solid #ccdac1;
   margin-bottom: 10px;
 }
 .logo-phone{
@@ -767,6 +767,9 @@ body{
   font-size: 14px;
   color: #444;
   text-indent: 28px;
+}
+.detail-cont .cont img{
+  width: auto;
 }
 .news-tuijian{
   position: absolute;

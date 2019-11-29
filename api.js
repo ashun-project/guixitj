@@ -281,7 +281,7 @@ router.get('/detail/:id', function(req, res) {
 
 // 后台管理页面
 router.get('/ashun/admin', function(req, res) {
-    res.render('admin');
+    res.render('admin', {domain: domain});
 })
 
 // 文件上传
@@ -315,7 +315,7 @@ router.post('/insertIntoDataList',function(req,res){
                 conn.release();//关闭连接池
             } else {
                 var list_id = rows.insertId
-                var sqDetailInfo = [list_id, params.cont, params.type, params.title, getFormatDate(), params.amount];
+                var sqDetailInfo = [list_id, replayImg(params.cont, params.type), params.type, params.title, getFormatDate(), params.amount];
                 conn.query(sqDetail, sqDetailInfo, function (err2, rows, fields) {
                     var response = '';
                     if (err2) {
@@ -333,6 +333,12 @@ router.post('/insertIntoDataList',function(req,res){
         });
     })
 })
+
+// 替换临时文件路径
+function replayImg(cont, type) {
+    var src = 'src="' + domain.pc + '/img/' + type;
+    return cont.replace('src="/tmp', src)
+}
 
 // 迁移临时文件
 function moveFile(type, src) {
