@@ -782,17 +782,33 @@ body{
 }
 .news-tuijian li{
   line-height: 30px;
+  height: 30px;
+  padding-left: 10px;
+}
+.news-tuijian li i{
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  background: #525252;
+  border-radius: 50%;
+  float: left;
+  margin-top: 13px;
 }
 .news-tuijian li a{
   color: #333;
   display: inline-block;
-  width: 100%;
+  width: 250px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  float: left;
+  margin-left: 13px;
 }
-.news-tuijian li a:hover{
+.news-tuijian li a:hover, .news-tuijian li.active a{
   color: #f26363;
+}
+.news-tuijian li.active i{
+  background: #f26363;
 }
 .page{
   max-width: 1000px;

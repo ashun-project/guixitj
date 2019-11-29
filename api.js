@@ -260,7 +260,7 @@ router.get('/detail/:id', function(req, res) {
         newsList: []
     }
     var sql = 'SELECT * FROM data_detail where id = "' + req.params.id +'"';
-    var tuijian = 'SELECT * FROM data_list where type = "news" order by id desc limit 8';
+    var tuijian = 'SELECT * FROM data_list where type = "news" order by id desc limit 10';
     pool.getConnection(function (err, conn) {
         if (err) console.log("POOL /==> " + err);
         conn.query(sql, function (err, result) {

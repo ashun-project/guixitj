@@ -33,12 +33,13 @@ html
                     span 推荐新闻
                     a(href="#{domain.pc + '/news/'}") 更多&gt;
                 ul
-                    each item in newsList
-                        li
+                    each item,idx in newsList
+                        li(class="#{idx == 5? 'active' : ''}")
+                            i
                             a(href="#{domain.pc + '/detail/' + item.id}") #{item.title}
         include ../include/footer.jade
         script.
             var imgs = document.querySelectorAll('img');
             for (var i = 0; i < imgs.length; i++) {
-                
+
             }
