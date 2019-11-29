@@ -89,14 +89,14 @@ html(lang="en")
                 });
             })
             $('#saveData').click(function() {
-                var txt = editor.getValue();
+                //- var txt = editor.getValue();
+                var err = '';
                 var obj = {
                     type: $('#list-type').val() || 'trade',
                     title: $('#title').val(),
                     amount: $('#amount').val(),
                     depict: $('#depict').val(),
-                    logo: logo,
-                    cont: txt
+                    logo: logo
                 }
                 if (obj.type !== 'trade') {
                     delete obj.amount;
@@ -105,7 +105,8 @@ html(lang="en")
                         delete obj.logo;
                     }
                 }
-                var err = '';
+                obj.imgs = getImg(obj);
+                obj.cont = editor.getValue();
                 for(var key in obj) {
                     if(!obj[key]) {
                         err = '请填写完内容'
@@ -117,7 +118,6 @@ html(lang="en")
                 if (obj.depict && obj.depict.length > 50) {
                     err = '描述内容太长'
                 }
-                obj.imgs = getImg(obj);
                 if (!err) {
                     $.ajax({
                         url: '/insertIntoDataList',
@@ -145,7 +145,8 @@ html(lang="en")
                 var imgs = $('.simditor-body').find('img');
                 var arr = [];
                 for (var i = 0; i < imgs.length; i++) {
-                    arr.push($(imgs).attr('file-src'))
+                    $(imgs[i]).attr('alt', obj.title);
+                    arr.push($(imgs[i]).attr('file-src'))
                 }
                 if (obj.logo) {
                     arr.push(obj.logo)
