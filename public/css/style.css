@@ -26,6 +26,7 @@ body{
   font-size: 14px;
   /* background: url(../img/bk.jpg) no-repeat; */
   background-size: 3000px;
+  min-width: 1120px;
 }
 .width-1100{
   width: 1100px;
@@ -35,6 +36,7 @@ body{
   background: #000;
   border-bottom: 1px solid #ccdac1;
   margin-bottom: 10px;
+  min-width: 1100px;
 }
 .logo-phone{
   display: flex;
@@ -127,10 +129,10 @@ body{
   background-position-x: 0px;
   height: 35px;
   line-height: 35px;
-  background-color: #d1ffb0;
+  background-color: #dbe0d7;
   margin-top: 10px;
   padding-right: 343px;
-  color: rgb(88, 87, 87);
+  color: #333;
 }
 .column-title{
   height: 40px;
@@ -241,6 +243,7 @@ body{
   background: #93d664;
   margin-top: 10px;
   padding: 20px 0;
+  min-width: 1100px;
 }
 .about-us .width-1100{
   display: flex;
@@ -329,6 +332,7 @@ body{
   background: #333;
   padding: 10px 0;
   margin-top: 20px;
+  min-width: 1100px;
 }
 .footer .width-1100{
   display: flex;
@@ -441,6 +445,7 @@ body{
   line-height: 30px;
   background: #696969;
   color: #bbbbbb;
+  min-width: 1100px;
 }
 .curr-positon{
   height: 50px;
