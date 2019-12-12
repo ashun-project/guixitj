@@ -240,7 +240,7 @@ body{
   color: #f26363;
 }
 .about-us{
-  background: #93d664;
+  background: #b3ae99;
   margin-top: 10px;
   padding: 20px 0;
   min-width: 1100px;
@@ -590,7 +590,7 @@ body{
 .question .an i{
   color: #4da032;
 }
-/* 常见问题 *//* 最近出售 */
+/* 常见问题 *//* 成交记录 */
 .question-cont, .trade-cont{
   position: relative;
   padding-left: 360px;
@@ -642,7 +642,7 @@ body{
 .q-questions .an{
   margin-bottom: 30px;
 }
-/* 最近出售 */
+/* 成交记录 */
 .trade-cont .cont-rf{
   padding-top: 20px;
   min-height: 650px;

@@ -162,7 +162,7 @@ function getNewsDataList(req, res, page) {
     })
 }
 
-// 最近出售
+// 成交记录
 router.get('/trade', function (req, res) {
     getTradeDataList(req, res, 'trade', '1');
 });
@@ -256,7 +256,7 @@ router.get('/detail/:id', function(req, res) {
         pageUrl: req.url,
         domain: domain,
         objData: {title: '没有找到数据', content: '数据出错'},
-        typeTxt: {trade: '最近出售', news: '站内新闻', life: '农家生活'},
+        typeTxt: {trade: '成交记录', news: '站内新闻', life: '农家生活'},
         newsList: []
     }
     var sql = 'SELECT * FROM data_detail where id = "' + req.params.id +'"';
