@@ -1,5 +1,4 @@
 var express = require('express');
-var request = require("request");
 var router = express.Router();
 var mysql = require('mysql');
 var fs = require('fs');
@@ -27,9 +26,9 @@ function getClientIP(req) {
         req.connection.socket.remoteAddress;
 };
 var domain = {
-    pc: '',//'http://www.guixitj.com',
-    m: '',//'http://m.guixitj.com',
-    static: ''
+    pc: 'http://www.guixitj.com',//'http://www.guixitj.com',
+    m: 'http://m.guixitj.com',//'http://m.guixitj.com',
+    static: 'http://static.guixitj.com'
 }
 // 路由拦截
 router.all('*', function (req, res, next) {
@@ -287,7 +286,6 @@ router.get('/ashun/admin', function(req, res) {
 // 文件上传
 router.post('/upload',mutipartMiddeware,function (req,res) {  
     var path = req.files.file.path.replace(/\\/g, '\/');
-    console.log(path);
     res.json({file_path: domain.static + path.replace('public', ''), file_src: path.replace('public/tmp', '')});
 });
 
@@ -336,7 +334,7 @@ router.post('/insertIntoDataList',function(req,res){
 
 // 替换临时文件路径
 function replayImg(cont, type) {
-    var src = 'src="' + domain.pc + '/img/' + type;
+    var src = 'src="' + domain.static + '/img/' + type;
     return cont.replace('src="/tmp', src)
 }
 

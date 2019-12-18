@@ -775,6 +775,7 @@ body{
 }
 .detail-cont .cont img{
   width: auto;
+  max-width: 100% !important;
 }
 .news-tuijian{
   position: absolute;
