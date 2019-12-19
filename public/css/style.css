@@ -768,7 +768,7 @@ body{
   margin-bottom: 30px;
 }
 .detail-cont .cont{
-  line-height: 30px;
+  line-height: 25px;
   font-size: 14px;
   color: #444;
   text-indent: 28px;
@@ -776,6 +776,8 @@ body{
 .detail-cont .cont img{
   width: auto;
   max-width: 100% !important;
+  margin: 10px auto;
+  display: block;
 }
 .news-tuijian{
   position: absolute;
