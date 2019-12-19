@@ -11,7 +11,7 @@ function getPage(total, currentPage, url, search) {
     }
     var tempStr = "<span>共"+totalPage+"页</span>";
     if(currentPage>1){
-        tempStr += "<a href="+ url + pageSearch + ">首页</a>";
+        tempStr += "<a href="+ url + '/' + pageSearch + ">首页</a>";
         tempStr += "<a href="+ url + '/' + replayOne(currentPage-1) +">上一页</a>"
     }else{
         tempStr += "<span class='btn'>首页</span>";
@@ -47,7 +47,7 @@ function getPage(total, currentPage, url, search) {
         if (num == 1) {
             return '' + pageSearch;
         } else {
-            return num + pageSearch;
+            return num + '/' + pageSearch;
         }
     }
     return tempStr;
