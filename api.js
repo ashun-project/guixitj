@@ -74,7 +74,7 @@ router.get('/', function (req, res) {
                 life: dataObj.life,
                 trade: dataObj.trade,
                 news: dataObj.news,
-                pageUrl: 'index'
+                pageUrl: '/'
             }
             res.render('index', listObj);
             conn.release();

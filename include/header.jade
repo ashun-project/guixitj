@@ -10,18 +10,17 @@
                 ul
                     -
                         var menus = [
-                            {url: '/', page: 'index', name: '首页'},
                             {url: '/trade/', page: 'trade', name: '成交记录'},
                             {url: '/life/', page: 'life', name: '农家生活'},
                             {url: '/news/', page: 'news', name: '本站新闻'},
                             {url: '/questions/', page: 'questions', name: '常见问题'},
                             {url: '/aboutus/', page: 'aboutus', name: '关于我们'}
                         ];
+                    li
+                        a(href="#{domain.pc}/", class="#{pageUrl === '/' ? 'active' : ''}" title="首页") 首页
                     each item in menus
                         li
                             a(href="#{domain.pc+item.url}", title="#{item.name}", class="#{pageUrl.indexOf(item.page) > -1 ? 'active' : ''}") #{item.name}
-                    //- li
-                    //-     a.active(href="", title="") 首页
                     //- li
                     //-     a(href="", title="") 成交记录
                     //- li
