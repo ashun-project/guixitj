@@ -144,6 +144,7 @@ html(lang="en")
             function getImg(obj) {
                 var imgs = $('.simditor-body').find('img');
                 var arr = [];
+                $('.simditor-body br').remove();
                 for (var i = 0; i < imgs.length; i++) {
                     $(imgs[i]).attr('alt', obj.title);
                     arr.push($(imgs[i]).attr('file-src'))

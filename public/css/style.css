@@ -279,13 +279,16 @@ body{
 }
 .life-show ul{
   display: flex;
-  justify-content: space-between;
 }
 .life-show li{
-  width: 210px;
+  width: 212px;
   padding: 5px;
   border: 1px solid #d2d2d2;
   text-align: center;
+  margin-right: 10px;
+}
+.life-show li:last-child{
+  margin-right: 0;
 }
 .life-show li img{
   height: 148px;
@@ -555,8 +558,8 @@ body{
   min-height: 220px;
 }
 .news-cont .life-tuijian li{
-  width: 134px;
-  margin-bottom: 10px;
+  width: 136px;
+  margin-bottom: 6px;
   height: 100px;
   overflow: hidden;
 }

@@ -28,7 +28,7 @@ function getClientIP(req) {
 var domain = {
     pc: 'http://www.guixitj.com',//'http://www.guixitj.com',
     m: 'http://m.guixitj.com',//'http://m.guixitj.com',
-    static: 'http://static.guixitj.com'
+    static: 'http://static.guixitj.com'//http://static.guixitj.com
 }
 // 路由拦截
 router.all('*', function (req, res, next) {
@@ -56,7 +56,7 @@ router.all('*', function (req, res, next) {
 // 首页
 router.get('/', function (req, res) {
     // var host = 'http://'+req.headers['host'];
-    var sql = 'select a.* from (select * from data_list where type = "life" order by id desc limit 5) a union all select b.* from (select * from data_list where type = "trade" order by id desc limit 4) b union all select c.* from (select * from data_list where type = "news" order by id desc limit 6) c';
+    var sql = 'select a.* from (select * from data_list where type = "life" order by id desc limit 5) a union all select b.* from (select * from data_list where type = "trade" order by id desc limit 5) b union all select c.* from (select * from data_list where type = "news" order by id desc limit 6) c';
     pool.getConnection(function (err, conn) {
         if (err) console.log("POOL /==> " + err);
         conn.query(sql, function (err, result) {
@@ -84,7 +84,7 @@ router.get('/', function (req, res) {
 
 // 关于我们
 router.get('/aboutus', function(req, res) {
-    var sql = 'SELECT * FROM data_list where type = "life" order by id desc limit 4';
+    var sql = 'SELECT * FROM data_list where type = "life" order by id desc limit 5';
     pool.getConnection(function (err, conn) {
         if (err) console.log("POOL /==> " + err);
         conn.query(sql, function (err, result) {
@@ -286,7 +286,7 @@ router.get('/ashun/admin', function(req, res) {
 // 文件上传
 router.post('/upload',mutipartMiddeware,function (req,res) {  
     var path = req.files.file.path.replace(/\\/g, '\/');
-    res.json({file_path: domain.static + path.replace('public', ''), file_src: path.replace('public/tmp', '')});
+    res.json({file_path: path.replace('public', ''), file_src: path.replace('public/tmp', '')});
 });
 
 // 添加数据
@@ -335,7 +335,7 @@ router.post('/insertIntoDataList',function(req,res){
 // 替换临时文件路径
 function replayImg(cont, type) {
     var src = 'src="' + domain.static + '/img/' + type;
-    return cont.replace('src="/tmp', src)
+    return cont.replace(/src=\"\/tmp/g, src)
 }
 
 // 迁移临时文件
