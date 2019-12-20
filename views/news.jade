@@ -29,7 +29,7 @@ html
                     each item in life
                         li
                             a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
-                                img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                                img(src="#{domain.static + '/img/' + item.type + item.logo}", alt="#{item.title}")
                 div.column-title
                     span 常见问题
                     a(href="#{domain.pc}/questions/") 详情&gt;

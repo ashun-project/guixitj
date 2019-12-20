@@ -25,7 +25,7 @@ html
                 each item in life
                     li
                         a(href="#{domain.pc + '/detail/' + item.id}", target="_blank")
-                            img(src="#{domain.static + '/img/' + item.type + '/' + item.logo}", alt="#{item.title}")
+                            img(src="#{domain.static + '/img/' + item.type + item.logo}", alt="#{item.title}")
                         p
                             a(href="#{domain.pc + '/detail/' + item.id}", target="_blank") #{item.title}
                         p
