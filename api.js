@@ -177,7 +177,8 @@ function getTradeDataList(req, res, type, page) {
         domain: domain,
         pageTxt: limit > 1 ? '【第' + limit + '页】' : '',
         pageUrl: req.url,
-        news: []
+        news: [],
+        trade: []
     };
     listObj[type] = [];
     if (!limit) {

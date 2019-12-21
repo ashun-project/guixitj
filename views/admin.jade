@@ -147,6 +147,7 @@ html(lang="en")
                 $('.simditor-body br').remove();
                 for (var i = 0; i < imgs.length; i++) {
                     $(imgs[i]).attr('alt', obj.title);
+                    $(imgs[i]).attr('onerror', "this.src='/img/error.png'");
                     arr.push($(imgs[i]).attr('file-src'))
                 }
                 if (obj.logo) {
