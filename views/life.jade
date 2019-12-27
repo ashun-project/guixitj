@@ -8,12 +8,7 @@ html
         link(rel="canonical", href="#{domain.pc + pageUrl}")
         link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m + pageUrl}")
         meta(name="mobile-agent", content="format=html5;url=#{domain.m + pageUrl}")
-        meta(name="applicable-device", content="pc")
-        meta(http-equiv="Cache-Control", content="no-transform")
-        meta(http-equiv="Cache-Control", content="no-siteapp")
-        meta(name="renderer", content="webkit")
-        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
-        link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+        include ../include/tongji.jade
     body.life
         include ../include/header.jade
         p.curr-positon.width-1100

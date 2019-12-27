@@ -1,0 +1,13 @@
+meta(name="applicable-device", content="pc")
+meta(http-equiv="Cache-Control", content="no-transform")
+meta(http-equiv="Cache-Control", content="no-siteapp")
+meta(name="renderer", content="webkit")
+link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
+script.
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?700e71e33ed7afff999b83f80b95cffd";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();

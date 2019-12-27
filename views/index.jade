@@ -8,12 +8,7 @@ html
         link(rel="canonical", href="#{domain.pc}/")
         link(rel="alternate", media="only screen and(max-width: 640px)", href="#{domain.m}/")
         meta(name="mobile-agent", content="format=html5;url=#{domain.m}/")
-        meta(name="applicable-device", content="pc")
-        meta(http-equiv="Cache-Control", content="no-transform")
-        meta(http-equiv="Cache-Control", content="no-siteapp")
-        meta(name="renderer", content="webkit")
-        link(rel="stylesheet", type="text/css", href="#{domain.static}/css/style.css?#{new Date().getTime()}")
-        link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+        include ../include/tongji.jade
     body
         include ../include/header.jade
         .banner-info.width-1100
@@ -122,7 +117,6 @@ html
                 //-     a(href="", target="_blank") 贵溪土鸡回收
                 //- li
                 //-     a(href="", target="_blank") 土鸡蛋批发
-        include ../include/footer.jade
         .confirm-modul
             p
                 span 手机号：
@@ -143,3 +137,5 @@ html
             closeMd.addEventListener('click', function(e) {
                 cModul.style.display = 'none';
             })
+        include ../include/footer.jade
+        
