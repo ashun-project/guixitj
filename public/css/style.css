@@ -823,8 +823,8 @@ body{
   margin-bottom: 30px;
 }
 .detail-cont .cont{
-  line-height: 25px;
-  font-size: 14px;
+  line-height: 28px;
+  font-size: 16px;
   color: #444;
   text-indent: 28px;
 }
@@ -955,4 +955,7 @@ body{
 }
 .confirm-modul .close-md:hover{
   color: #f26363;
+}
+.my-video{
+  width:170px;height: auto;position:absolute;top:117px;left:0;box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
 }
