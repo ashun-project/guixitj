@@ -829,7 +829,7 @@ body{
   /* text-indent: 28px; */
 }
 .detail-cont .cont > p{
-  min-height: 10px;
+  min-height: 20px;
 }
 .detail-cont .cont img{
   width: auto;

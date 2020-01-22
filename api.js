@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 var pageModule = require('./page');
 var pool = mysql.createPool({
-    connectionLimit: 100,
+    // connectionLimit: 100,
     host: 'localhost',
     user: 'root',
     password: 'ashun666',
@@ -324,10 +324,10 @@ router.post('/insertIntoDataList',function(req,res){
                         response = {success:'success'}
                     }
                     res.json(response);
-                    conn.release();
                     for (var i = 0; i < params.imgs.length; i++) {
                         moveFile(params.type, params.imgs[i]);
                     }
+                    conn.release();
                 });
             }
         });
