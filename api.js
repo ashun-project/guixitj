@@ -353,7 +353,7 @@ function moveFile(type, src) {
                 //     var dest = fs.createWriteStream('./public/img/trade' + src);
                 // }
                 source.pipe(dest);
-            }catch{
+            }catch (e){
                 console.log('迁移文件出错')
             }
         } else {
