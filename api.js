@@ -48,7 +48,7 @@ router.all('*', function (req, res, next) {
         return get404(req, res)
     }
     if (req.method.toLowerCase() == 'options') {
-        res.send(200);  //让options尝试请求快速结束
+        res.send('');  //让options尝试请求快速结束
     } else {
         next();
     }
@@ -283,6 +283,13 @@ router.get('/detail/:id', function(req, res) {
 // 后台管理页面
 router.get('/ashun/admin', function(req, res) {
     res.render('admin', {domain: domain});
+})
+// 获取通知信息
+router.get('/notice/service', function(req, res) {
+    // console.log(req)
+    console.log('=======================')
+    console.log(req.body, req.query, req.params)
+    res.send('')
 })
 
 // 文件上传
