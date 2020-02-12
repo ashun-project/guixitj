@@ -119,15 +119,19 @@ body{
   color: #f26363;
 }
 .banner-info{
-  height: 300px;
+  height: 330px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ececec;
 }
 .banner{
   width: 400px;
   height: 100%;
   background: #f7e9e9;
+  overflow: hidden;
 }
 .info{
-  width: 680px;
+  width: 648px;
   margin-left: 20px;
   line-height: 25px;
   color: #323232;
@@ -209,6 +213,7 @@ body{
   width: 760px;
   padding: 0 10px;
   border: 1px solid #d2d2d2;
+  background: #fff;
 }
 .trade-news .lf li{
   display: flex;
@@ -258,6 +263,7 @@ body{
   height: 284px;
   padding: 0 10px 10px;
   border: 1px solid #d2d2d2;
+  background-color: #fff;
 }
 .trade-news .rf .wrap-t{
   margin-top: 10px;
