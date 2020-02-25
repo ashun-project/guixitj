@@ -18,6 +18,10 @@ html
             a(href="#{domain.pc + '/' +  objData.type + '/'}") #{typeTxt[objData.type]}
             span &nbsp;&gt;&nbsp;#{objData.title}
         div.detail.width-1100
+            div.goumai
+                | 常年出售农村散养土鸡，都是田野散养的。质量有保证。
+                br
+                | 地址：江西省，贵溪市，流口镇，官庄村，鲁田组&nbsp;&nbsp;13687011233
             div.detail-cont
                 h2 #{objData.title}
                 p.texin 时间：#{objData.create_time}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来源：贵溪土鸡网&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑：阿顺
@@ -28,7 +32,8 @@ html
                     a(href="#{domain.pc + '/news/'}") 更多&gt;
                 ul
                     each item,idx in newsList
-                        li(class="#{idx == 5? 'active' : ''}")
+                        //- li(class="#{idx == 5? 'active' : ''}")
+                        li(class="")
                             i
                             a(href="#{domain.pc + '/detail/' + item.id}") #{item.title}
         include ../include/footer.jade

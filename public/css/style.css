@@ -185,7 +185,7 @@ body{
   background-position-x: 0px;
   height: 35px;
   line-height: 35px;
-  background-color: #ececec;
+  background-color: #dfeff8;
   margin-top: 10px;
   padding-right: 343px;
   color: #333;
@@ -524,6 +524,13 @@ body{
   top: 17px;
   left: 0px;
 }
+.curr-positon a{
+  color: #333;
+}
+.curr-positon a:hover{
+  color: #f26363;
+  text-decoration: underline;
+}
 /* 关于我们 */
 .about-page .about-us{
   margin-top: 0px;
@@ -650,6 +657,10 @@ body{
 }
 .question .an i{
   color: #4da032;
+}
+.question .an a:hover{
+  color: #f26363;
+  text-decoration: underline;
 }
 /* 常见问题 *//* 成交记录 */
 .question-cont, .trade-cont{
@@ -810,10 +821,25 @@ body{
 .detail{
   position: relative;
   min-height: 650px;
+  padding-top: 10px;
 }
 .detail-cont{
-  padding-top: 50px;
-  width: 700px;
+  width: 780px;
+  background: #fff;
+  margin-top: 20px;
+  padding: 20px 10px;
+  border: 1px solid #d2d2d2;
+}
+.detail .goumai{
+  font-size:16px;
+  font-weight: 600;
+  padding: 10px;
+  width: 780px;
+  height: 100px;
+  line-height: 40px;
+  background: #fff;
+  color: #f26363;
+  border: 1px solid #d2d2d2;
 }
 .detail-cont h2{
   font-size: 24px;
@@ -832,6 +858,7 @@ body{
   line-height: 28px;
   font-size: 16px;
   color: #444;
+  padding: 0 10px;
   /* text-indent: 28px; */
 }
 .detail-cont .cont > p{
@@ -847,10 +874,17 @@ body{
   position: absolute;
   top: 10px;
   right: 0px;
-  border: 1px solid #d2d2d2;
+  border: 1px solid #eee;
   padding: 10px;
   width: 300px;
   min-height: 370px;
+  background: #fff;
+}
+.news-tuijian .column-title{
+  border-color: #eee;
+}
+.news-tuijian .column-title span{
+  border-bottom: 2px solid #f26363;
 }
 .news-tuijian li{
   line-height: 30px;
